@@ -1,6 +1,7 @@
 package fr.caranouga.expeditech.common.items;
 
 import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.common.tab.ModTabs;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -15,6 +16,7 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Expeditech.MODID);
 
     // region Registry
+    public static final RegistryObject<Item> CARANITE = item("caranite", new Item.Properties().tab(ModTabs.EXPEDITECH));
     // endregion
 
     // region Utils
