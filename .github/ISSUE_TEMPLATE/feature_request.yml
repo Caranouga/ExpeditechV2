@@ -1,0 +1,54 @@
+name: Feature Request
+description: Suggest an idea for this project
+title: "[ENHANCEMENT] "
+labels: ["enhancement"]
+projects: ["Caranouga/3"]
+assignees:
+  - caranouga
+body:
+  - type: input
+    id: feature_name
+    attributes:
+      label: Feature Name
+      description: Please provide a short name for the feature you are requesting.
+      placeholder: "e.g., New Item Crafting"
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature_description
+    attributes:
+      label: Feature Description
+      description: Please provide a detailed description of the feature you are requesting.
+      placeholder: "e.g., I would like to see a new item crafting system that allows players to create custom items."
+    validations:
+      required: true
+
+  - type: input
+    id: related_mods
+    attributes:
+      label: Related Mods
+      description: Please list any related mods that might be relevant to this feature request.
+      placeholder: "e.g., Mod A, Mod B"
+
+  - type: textarea
+    id: additional_information
+    attributes:
+      label: Additional Information
+      description: Please provide any additional information that might help us understand your feature request better.
+      placeholder: "e.g., This feature would enhance gameplay by allowing more customization."
+
+  - type: checkboxes
+    id: no_duplicate
+    attributes:
+      label: Duplicate Check
+      description: Please check if this feature request is a duplicate of an existing one.
+      options:
+        - label: "I have checked the existing feature requests and this is not a duplicate."
+          required: true
+
+
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your feature request! We appreciate your input and will review it as soon as possible. Please note that not all feature requests can be implemented, but we value your suggestions.
