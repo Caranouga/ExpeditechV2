@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(Expeditech.MODID)
 public class Expeditech
 {
-    private static final Logger LOGGER = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
     public static final String MODID = "et";
 
     public Expeditech() {
