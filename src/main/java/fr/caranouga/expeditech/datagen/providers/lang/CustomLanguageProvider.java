@@ -8,6 +8,7 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.fml.RegistryObject;
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
 
@@ -141,6 +142,10 @@ public abstract class CustomLanguageProvider implements IDataProvider {
     // region Register function
     protected void addItem(RegistryObject<Item> item, String translation){
         add(item.get().getDescriptionId(), translation);
+    }
+
+    protected void addItemGroup(ItemGroup group, String translation){
+        add(group.getDisplayName().getString(), translation);
     }
 
     private void add(String key, String value){

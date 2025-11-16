@@ -1,6 +1,7 @@
 package fr.caranouga.expeditech.datagen.providers.lang;
 
 import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.tab.ModTabs;
 import net.minecraft.data.DataGenerator;
 
 public class ModLanguageProvider extends CustomLanguageProvider {
@@ -13,9 +14,13 @@ public class ModLanguageProvider extends CustomLanguageProvider {
         // en_us
         addItem(ModItems.CARANITE, "Caranite");
 
+        addItemGroup(ModTabs.EXPEDITECH, "Expeditech");
+
         switchLocale();
 
         // fr_fr
         addItem(ModItems.CARANITE, "Caranite");
+
+        addItemGroup(ModTabs.EXPEDITECH, "Expeditech");
     }
 }
