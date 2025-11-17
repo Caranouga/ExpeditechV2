@@ -26,6 +26,7 @@ public class ModItemModelsProvider extends ItemModelProvider {
 
             if(item instanceof BlockItem){
                 withExistingParent(name, modLoc("block/" + name));
+                return;
             }
 
             ModelFile itemGenerated = getExistingFile(mcLoc("item/generated"));
