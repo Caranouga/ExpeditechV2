@@ -14,6 +14,7 @@ public class ModLanguageProvider extends CustomLanguageProvider {
     protected void addTranslations() {
         // en_us
         addItem(ModItems.CARANITE, "Caranite");
+        addItem(ModItems.IMPURE_CARANITE, "Impure Caranite");
 
         addBlock(ModBlocks.CARANITE_BLOCK, "Block of Caranite");
         addBlock(ModBlocks.CARANITE_ORE, "Caranite Ore");
@@ -24,6 +25,7 @@ public class ModLanguageProvider extends CustomLanguageProvider {
 
         // fr_fr
         addItem(ModItems.CARANITE, "Caranite");
+        addItem(ModItems.IMPURE_CARANITE, "Caranite impure");
 
         addBlock(ModBlocks.CARANITE_BLOCK, "Bloc de caranite");
         addBlock(ModBlocks.CARANITE_ORE, "Minerai de caranite");

@@ -17,6 +17,7 @@ public class ModItems {
 
     // region Registry
     public static final RegistryObject<Item> CARANITE = item("caranite", new Item.Properties().tab(ModTabs.EXPEDITECH));
+    public static final RegistryObject<Item> IMPURE_CARANITE = item("impure_caranite", new Item.Properties().tab(ModTabs.EXPEDITECH));
     // endregion
 
     // region Utils

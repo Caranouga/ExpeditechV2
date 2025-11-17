@@ -1,8 +1,14 @@
 package fr.caranouga.expeditech.datagen.providers.recipes;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
+import fr.caranouga.expeditech.common.blocks.ModBlocks;
+import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.utils.StringUtils;
+import net.minecraft.block.Block;
+import net.minecraft.block.OreBlock;
+import net.minecraft.data.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraftforge.fml.RegistryObject;
 
 import java.util.function.Consumer;
 
@@ -13,5 +19,47 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildShapelessRecipes(Consumer<IFinishedRecipe> finishedRecipeConsumer) {
+        storageBlockAll(finishedRecipeConsumer, ModBlocks.CARANITE_BLOCK, ModItems.CARANITE);
+
+        oreToItem(finishedRecipeConsumer, ModBlocks.CARANITE_ORE, ModItems.IMPURE_CARANITE, 0.9f, 150);
+    }
+
+    private void storageBlockAll(Consumer<IFinishedRecipe> recipeBuilder, RegistryObject<Block> blockKey, RegistryObject<Item> itemKey){
+        itemToStorageBlock(recipeBuilder, blockKey, itemKey);
+        storageBlockToItem(recipeBuilder, blockKey, itemKey);
+    }
+
+    private void itemToStorageBlock(Consumer<IFinishedRecipe> recipeBuilder, RegistryObject<Block> blockKey, RegistryObject<Item> itemKey){
+        Block block = blockKey.get();
+        Item item = itemKey.get();
+
+        ShapedRecipeBuilder.shaped(block, 1).define('#', item)
+                .pattern("###")
+                .pattern("###")
+                .pattern("###")
+                .unlockedBy("has_" + item.getDescriptionId(), has(item))
+                .save(recipeBuilder, StringUtils.modLocation(block.getDescriptionId() + "_from_" + item.getDescriptionId()));
+    }
+
+    private void storageBlockToItem(Consumer<IFinishedRecipe> recipeBuilder, RegistryObject<Block> blockKey, RegistryObject<Item> itemKey){
+        Block block = blockKey.get();
+        Item item = itemKey.get();
+
+        ShapelessRecipeBuilder.shapeless(item, 9)
+                .requires(block)
+                .unlockedBy("has_" + block.getDescriptionId(), has(block))
+                .save(recipeBuilder, StringUtils.modLocation(item.getDescriptionId() + "_from_" + block.getDescriptionId()));
+    }
+
+    private void oreToItem(Consumer<IFinishedRecipe> recipeBuilder, RegistryObject<OreBlock> oreKey, RegistryObject<Item> itemKey, float experience, int time){
+        OreBlock ore = oreKey.get();
+        Item item = itemKey.get();
+
+        CookingRecipeBuilder.smelting(Ingredient.of(ore), item, experience, time)
+                .unlockedBy("has_" + ore.getDescriptionId(), has(ore))
+                .save(recipeBuilder, StringUtils.modLocation("smelting_" + ore.getDescriptionId() + "_to_" + item.getDescriptionId()));
+        CookingRecipeBuilder.blasting(Ingredient.of(ore), item, experience, time)
+                .unlockedBy("has_" + ore.getDescriptionId(), has(ore))
+                .save(recipeBuilder, StringUtils.modLocation("blasting_" + ore.getDescriptionId() + "_to_" + item.getDescriptionId()));
     }
 }
