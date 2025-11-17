@@ -53,8 +53,7 @@ public class ModItems {
      * @since 1.0.0
      */
     public static <B extends Block> void blockItem(String id, RegistryObject<B> blockObj) {
-        // TODO: Add tab
-        item(id, () -> new BlockItem(blockObj.get(), new Item.Properties()));
+        item(id, () -> new BlockItem(blockObj.get(), new Item.Properties().tab(ModTabs.EXPEDITECH)));
     }
     // endregion
 
