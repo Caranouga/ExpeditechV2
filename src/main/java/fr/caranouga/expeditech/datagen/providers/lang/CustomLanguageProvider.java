@@ -141,11 +141,11 @@ public abstract class CustomLanguageProvider implements IDataProvider {
     }
 
     // region Register function
-    protected void addItem(RegistryObject<Item> item, String translation){
+    protected void addItem(RegistryObject<? extends Item> item, String translation){
         add(item.get().getDescriptionId(), translation);
     }
 
-    protected void addBlock(RegistryObject<Block> block, String translation){
+    protected void addBlock(RegistryObject<? extends Block> block, String translation){
         add(block.get().getDescriptionId(), translation);
     }
 

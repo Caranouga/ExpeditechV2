@@ -1,4 +1,6 @@
 {
+  "block.et.caranite_ore": "Caranite Ore",
+  "block.et.caranite_block": "Block of Caranite",
   "itemGroup.expeditech": "Expeditech",
   "item.et.caranite": "Caranite"
 }

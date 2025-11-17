@@ -4,6 +4,7 @@ import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.items.ModItems;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.OreBlock;
 import net.minecraft.block.material.Material;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -19,6 +20,11 @@ public class ModBlocks {
     public static final RegistryObject<Block> CARANITE_BLOCK = block("caranite_block",
             AbstractBlock.Properties.of(Material.METAL).strength(5.0f, 6.0f)
                     .harvestTool(ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops());
+
+    // Ores
+    public static final RegistryObject<OreBlock> CARANITE_ORE = ore("caranite_ore",
+            AbstractBlock.Properties.of(Material.STONE).strength(3.0f, 3.0f)
+                    .harvestTool(ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops());
     // endregion
 
     // region Utils
@@ -32,6 +38,21 @@ public class ModBlocks {
      */
     private static RegistryObject<Block> block(String id, AbstractBlock.Properties properties){
         RegistryObject<Block> blockObj = BLOCKS.register(id, () -> new Block(properties));
+        ModItems.blockItem(id, blockObj);
+
+        return blockObj;
+    }
+
+    /**
+     * This function register a new ore block with the given properties.
+     * It also registers the block item
+     * @param id The id of the block to be registered (modid:id)
+     * @param properties The block's properties
+     * @return The {@link RegistryObject} containing the {@link OreBlock}
+     * @since 1.0.0
+     */
+    private static RegistryObject<OreBlock> ore(String id, AbstractBlock.Properties properties){
+        RegistryObject<OreBlock> blockObj = BLOCKS.register(id, () -> new OreBlock(properties));
         ModItems.blockItem(id, blockObj);
 
         return blockObj;
