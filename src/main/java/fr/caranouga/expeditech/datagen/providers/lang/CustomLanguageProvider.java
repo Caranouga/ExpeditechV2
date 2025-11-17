@@ -4,6 +4,7 @@ import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.caranouga.expeditech.Expeditech;
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
@@ -142,6 +143,10 @@ public abstract class CustomLanguageProvider implements IDataProvider {
     // region Register function
     protected void addItem(RegistryObject<Item> item, String translation){
         add(item.get().getDescriptionId(), translation);
+    }
+
+    protected void addBlock(RegistryObject<Block> block, String translation){
+        add(block.get().getDescriptionId(), translation);
     }
 
     protected void addItemGroup(ItemGroup group, String translation){

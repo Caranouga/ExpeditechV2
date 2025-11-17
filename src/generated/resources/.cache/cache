@@ -1,3 +1,7 @@
+d784bcf1bf25a1720e50ca82337c545f62cc49ed assets/et/blockstates/caranite_block.json
 db3e3ed7d85a066cf79d76d9371f1c7616d4cb11 assets/et/lang/en_us.json
 db3e3ed7d85a066cf79d76d9371f1c7616d4cb11 assets/et/lang/fr_fr.json
+e6bc2fe142b78a36614ae8254802340b66426127 assets/et/models/block/caranite_block.json
 933f04030d6eba91018aa9dff39a240cfc341b74 assets/et/models/item/caranite.json
+0edd3df74ce8a66033e80a8284611fdf39098abf assets/et/models/item/caranite_block.json
+5099d6a7899c8aab248ea1d97ff39dc35e261abe data/et/loot_tables/blocks/caranite_block.json

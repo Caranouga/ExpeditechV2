@@ -5,6 +5,7 @@ import fr.caranouga.expeditech.common.items.ModItems;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -14,6 +15,10 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Expeditech.MODID);
 
     // region Registry
+    // Storage blocks
+    public static final RegistryObject<Block> CARANITE_BLOCK = block("caranite_block",
+            AbstractBlock.Properties.of(Material.METAL).strength(5.0f, 6.0f)
+                    .harvestTool(ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops());
     // endregion
 
     // region Utils
