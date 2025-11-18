@@ -153,6 +153,10 @@ public abstract class CustomLanguageProvider implements IDataProvider {
         add(group.getDisplayName().getString(), translation);
     }
 
+    protected void addCustom(String key, String value){
+        add(key, value);
+    }
+
     private void add(String key, String value){
         String currentLocale = this.locales[this.currentLocaleIdx];
         this.data.computeIfAbsent(currentLocale, k -> new HashMap<>());

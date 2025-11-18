@@ -1,7 +1,10 @@
 {
   "block.et.caranite_ore": "Minerai de caranite",
   "block.et.caranite_block": "Bloc de caranite",
+  "book.et.engineering_manual.name": "Le Grand Manuel D'ing\u00E9nierie",
   "itemGroup.expeditech": "Expeditech",
   "item.et.caranite": "Caranite",
-  "item.et.impure_caranite": "Caranite impure"
+  "book.et.engineering_manual.description": "$(l)Bienvenue dans $()$(thing)Le Grand Manuel D'ing\u00E9nierie$()$(br2)Ce manuel rassemble tout ce qu'il faut pour comprendre vos nouvelles machines, minerais, structures et cr\u00E9atures.$(br)Prenez une grande inspiration, ajustez votre casque...$(br)L'aventure commence !",
+  "item.et.impure_caranite": "Caranite impure",
+  "book.et.engineering_manual.subtitle": "Un guide s\u00E9rieux pour survivre \u00E0 vos propres inventions - avec un minimum d\u2019explosions."
 }

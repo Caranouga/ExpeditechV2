@@ -1,0 +1,11 @@
+{
+  "name": "book.et.engineering_manual.name",
+  "landing_text": "book.et.engineering_manual.description",
+  "use_resource_pack": false,
+  "book_texture": "patchouli:textures/gui/book_red.png",
+  "model": "et:engineering_manual",
+  "show_progress": false,
+  "version": "0",
+  "subtitle": "book.et.engineering_manual.subtitle",
+  "creative_tab": "expeditech"
+}

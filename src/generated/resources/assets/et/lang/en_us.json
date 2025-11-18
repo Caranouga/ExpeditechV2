@@ -1,7 +1,10 @@
 {
   "block.et.caranite_ore": "Caranite Ore",
   "block.et.caranite_block": "Block of Caranite",
+  "book.et.engineering_manual.name": "The Great Engineering Manual",
   "itemGroup.expeditech": "Expeditech",
   "item.et.caranite": "Caranite",
-  "item.et.impure_caranite": "Impure Caranite"
+  "book.et.engineering_manual.description": "$(l)Welcome to $()$(thing)The Great Engineering Manual$()$(br2)This manual brings together everything you need to understand your new machines, ores, structures, and creatures.$(br)Take a deep breath, adjust your helmet...$(br)The adventure begins !",
+  "item.et.impure_caranite": "Impure Caranite",
+  "book.et.engineering_manual.subtitle": "A serious guide to surviving your own inventions - with minimal explosions."
 }
