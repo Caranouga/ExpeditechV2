@@ -15,6 +15,7 @@ public class ModLanguageProvider extends CustomLanguageProvider {
         // en_us
         addItem(ModItems.CARANITE, "Caranite");
         addItem(ModItems.IMPURE_CARANITE, "Impure Caranite");
+        addItem(ModItems.SANDING_PAPER, "Sanding Paper");
 
         addBlock(ModBlocks.CARANITE_BLOCK, "Block of Caranite");
         addBlock(ModBlocks.CARANITE_ORE, "Caranite Ore");
@@ -30,13 +31,14 @@ public class ModLanguageProvider extends CustomLanguageProvider {
         // fr_fr
         addItem(ModItems.CARANITE, "Caranite");
         addItem(ModItems.IMPURE_CARANITE, "Caranite impure");
+        addItem(ModItems.SANDING_PAPER, "Papier abrasif");
 
         addBlock(ModBlocks.CARANITE_BLOCK, "Bloc de caranite");
         addBlock(ModBlocks.CARANITE_ORE, "Minerai de caranite");
 
         addItemGroup(ModTabs.EXPEDITECH, "Expeditech");
 
-        addCustom("book.et.engineering_manual.name", "Le Grand Manuel D'ingénierie");
+        addCustom("book.et.engineering_manual.name", "Le grand manuel d'ingénierie");
         addCustom("book.et.engineering_manual.subtitle", "Un guide sérieux pour survivre à vos propres inventions - avec un minimum d’explosions.");
         addCustom("book.et.engineering_manual.description", "$(l)Bienvenue dans $()$(thing)Le Grand Manuel D'ingénierie$()$(br2)Ce manuel rassemble tout ce qu'il faut pour comprendre vos nouvelles machines, minerais, structures et créatures.$(br)Prenez une grande inspiration, ajustez votre casque...$(br)L'aventure commence !");
     }

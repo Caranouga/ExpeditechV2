@@ -4,6 +4,8 @@ import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.common.blocks.ModBlocks;
+import fr.caranouga.expeditech.common.items.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
@@ -53,6 +55,7 @@ public abstract class CustomLanguageProvider implements IDataProvider {
         }
 
         verifyIfAllLocalesAreSet();
+        verifyIfAllContentIsSet();
         checkDiff();
 
         for (String locale : locales) {
@@ -75,6 +78,28 @@ public abstract class CustomLanguageProvider implements IDataProvider {
         for (String locale : locales) {
             if(!data.containsKey(locale)) throw new IllegalStateException("Locale " + locale + " is not set in the language provider");
         }
+    }
+
+    /**
+     * This function verify that all items, blocks, ... have translations
+     * This function does not stop the provider if something is missing, it only prints a message to the console
+     * @since 1.0.0
+     */
+    private void verifyIfAllContentIsSet(){
+        // Items
+        ModItems.ITEMS.getEntries().forEach(item -> {
+            String unlocalizedName = item.get().getDescriptionId();
+            if(!data.get(locales[0]).containsKey(unlocalizedName)){
+                Expeditech.LOGGER.warn("Item {} does not have a translation, did you forgot to add one ?", unlocalizedName);
+            }
+        });
+
+        ModBlocks.BLOCKS.getEntries().forEach(block -> {
+            String unlocalizedName = block.get().getDescriptionId();
+            if(!data.get(locales[0]).containsKey(unlocalizedName)){
+                Expeditech.LOGGER.warn("Block {} does not have a translation, did you forgot to add one ?", unlocalizedName);
+            }
+        });
     }
 
     /**

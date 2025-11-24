@@ -1,6 +1,7 @@
 package fr.caranouga.expeditech.common.items;
 
 import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.common.items.custom.SandingPaperItem;
 import fr.caranouga.expeditech.common.tab.ModTabs;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -18,10 +19,14 @@ public class ModItems {
     // region Registry
     public static final RegistryObject<Item> CARANITE = item("caranite", new Item.Properties().tab(ModTabs.EXPEDITECH));
     public static final RegistryObject<Item> IMPURE_CARANITE = item("impure_caranite", new Item.Properties().tab(ModTabs.EXPEDITECH));
+    public static final RegistryObject<SandingPaperItem> SANDING_PAPER = item("sanding_paper",
+            () -> new SandingPaperItem(new Item.Properties()
+                .tab(ModTabs.EXPEDITECH)
+                .durability(16))
+    );
     // endregion
 
     // region Utils
-
     /**
      * This function register an item with the given properties.
      * @param id The id of the item to register (modid:id)
