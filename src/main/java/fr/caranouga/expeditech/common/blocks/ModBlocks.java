@@ -1,7 +1,11 @@
 package fr.caranouga.expeditech.common.blocks;
 
 import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.common.blocks.custom.ConsumerMachine;
+import fr.caranouga.expeditech.common.blocks.custom.EnergyDuctMachine;
+import fr.caranouga.expeditech.common.blocks.custom.GeneratorMachine;
 import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.te.custom.EnergyDuctMachineTE;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.OreBlock;
@@ -11,6 +15,8 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Supplier;
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Expeditech.MODID);
@@ -25,6 +31,11 @@ public class ModBlocks {
     public static final RegistryObject<OreBlock> CARANITE_ORE = ore("caranite_ore",
             AbstractBlock.Properties.of(Material.STONE).strength(3.0f, 3.0f)
                     .harvestTool(ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops());
+
+    // Machines
+    public static final RegistryObject<GeneratorMachine> GENERATOR = block("generator", GeneratorMachine::new);
+    public static final RegistryObject<ConsumerMachine> CONSUMER = block("consumer", ConsumerMachine::new);
+    public static final RegistryObject<EnergyDuctMachine> DUCT = block("duct", EnergyDuctMachine::new);
     // endregion
 
     // region Utils
@@ -37,7 +48,11 @@ public class ModBlocks {
      * @since 1.0.0
      */
     private static RegistryObject<Block> block(String id, AbstractBlock.Properties properties){
-        RegistryObject<Block> blockObj = BLOCKS.register(id, () -> new Block(properties));
+        return block(id, () -> new Block(properties));
+    }
+
+    private static <B extends Block> RegistryObject<B> block(String id, Supplier<B> supplier){
+        RegistryObject<B> blockObj = BLOCKS.register(id, supplier);
         ModItems.blockItem(id, blockObj);
 
         return blockObj;
@@ -52,10 +67,7 @@ public class ModBlocks {
      * @since 1.0.0
      */
     private static RegistryObject<OreBlock> ore(String id, AbstractBlock.Properties properties){
-        RegistryObject<OreBlock> blockObj = BLOCKS.register(id, () -> new OreBlock(properties));
-        ModItems.blockItem(id, blockObj);
-
-        return blockObj;
+        return block(id, () -> new OreBlock(properties));
     }
     // endregion
 

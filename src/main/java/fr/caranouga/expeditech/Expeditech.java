@@ -1,8 +1,10 @@
 package fr.caranouga.expeditech;
 
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
+import fr.caranouga.expeditech.common.grids.ModGrids;
 import fr.caranouga.expeditech.common.items.ModItems;
 import fr.caranouga.expeditech.common.recipes.ModRecipes;
+import fr.caranouga.expeditech.common.te.ModTileEntities;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -25,6 +27,7 @@ public class Expeditech
         ModBlocks.register(modEBus);
         ModItems.register(modEBus);
         ModRecipes.register(modEBus);
+        ModTileEntities.register(modEBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
