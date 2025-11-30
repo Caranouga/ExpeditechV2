@@ -1,11 +1,14 @@
 package fr.caranouga.expeditech.common.te.custom;
 
+/*
+import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.grids.EnergyGrid;
-import fr.caranouga.expeditech.common.grids.ModGrids;
+import fr.caranouga.expeditech.common.grids.EnergyGridSavedData;
 import fr.caranouga.expeditech.common.te.ModTileEntities;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,23 +17,35 @@ public class EnergyDuctMachineTE extends TileEntity {
     private EnergyGrid grid;
 
     public EnergyDuctMachineTE() {
-        super(ModTileEntities.CONSUMER.get());
+        super(ModTileEntities.ENERGY_DUCT.get());
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        if(level == null || level.isClientSide) return;
+        if (level == null || level.isClientSide) return;
 
-        if(!hasGridAround()){
+        level.getServer().execute(() -> initializeGridAfterLoad());
+    }
+
+    private void initializeGridAfterLoad(){
+        if(!hasGridAround() && !isInGrid()){
             grid = createGrid();
+            grid.join(this);
         }else{
             if(hasMultipleGrid()){
                 grid = fuseGrids();
-            }else{
+            }else {
                 grid = joinGrid();
             }
         }
+
+        Expeditech.LOGGER.debug("TE at {}: {}", getBlockPos(), grid == null ? "pas de grid lol" : grid.getUID());
+    }
+
+    public void onNeighborChanged(BlockPos pos, Direction side){
+        Expeditech.LOGGER.debug("aaaaaaa");
+        if(level != null && !level.isClientSide) grid.add(pos, side);
     }
 
     @Override
@@ -50,7 +65,10 @@ public class EnergyDuctMachineTE extends TileEntity {
 
             if(tile == null) continue;
             if(tile instanceof EnergyDuctMachineTE){
-                grids.add(((EnergyDuctMachineTE) tile).getGrid());
+                EnergyGrid otherGrid = ((EnergyDuctMachineTE) tile).getGrid();
+                if(otherGrid == null) continue;
+
+                grids.add(otherGrid);
             }
         }
 
@@ -61,13 +79,18 @@ public class EnergyDuctMachineTE extends TileEntity {
         return !getGrids().isEmpty();
     }
 
+    private boolean isInGrid() {
+        if(level == null || level.isClientSide) return false;
+        return EnergyGridSavedData.get((ServerWorld) level).getGrids().stream().anyMatch(grid -> grid.getDucts().containsKey(getBlockPos()));
+    }
+
     private boolean hasMultipleGrid(){
         return getGrids().size() > 1;
     }
 
     private EnergyGrid createGrid(){
-        EnergyGrid grid = new EnergyGrid();
-        ModGrids.GRIDS.add(grid);
+        EnergyGrid grid = EnergyGridSavedData.newGrid((ServerWorld) level);
+        EnergyGridSavedData.get((ServerWorld) level).add(grid);
 
         return grid;
     }
@@ -81,20 +104,46 @@ public class EnergyDuctMachineTE extends TileEntity {
         EnergyGrid grid = grids.remove(0);
         grid.add(grids);
 
-        return grid;
+        return grid.join(this);
     }
 
     public EnergyGrid getGrid() {
         return grid;
     }
 
-    /*@Override
-    public void tick() {
-        if (this.level == null || this.level.isClientSide) return;
+    public void setGrid(EnergyGrid grid) {
+        this.grid = grid;
+    }
+}*/
 
-        Expeditech.LOGGER.info("The consumer at {} has {}", getBlockPos(), this.energyStorage.getEnergyStored());
+import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.common.grids.EnergyGridSavedData;
+import fr.caranouga.expeditech.common.te.ModTileEntities;
+import net.minecraft.tileentity.TileEntity;
 
-        //sendOutEnergy();
-        setChanged();
-    }*/
+public class EnergyDuctMachineTE extends TileEntity {
+    private boolean isInGrid = false;
+
+    public EnergyDuctMachineTE() {
+        super(ModTileEntities.ENERGY_DUCT.get());
+    }
+
+    public void onPlaced(){
+        Expeditech.LOGGER.debug("placed {}", getBlockPos());
+
+        isInGrid = EnergyGridSavedData.registerNewDuct(this);
+    }
+
+    public void setInGrid(boolean inGrid){
+        this.isInGrid = inGrid;
+    }
+
+    @Override
+    public void setRemoved() {
+        if(!isInGrid) super.setRemoved();
+
+        EnergyGridSavedData.unregisterDuct(this);
+
+        super.setRemoved();
+    }
 }

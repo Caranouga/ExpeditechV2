@@ -1,7 +1,6 @@
 package fr.caranouga.expeditech;
 
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
-import fr.caranouga.expeditech.common.grids.ModGrids;
 import fr.caranouga.expeditech.common.items.ModItems;
 import fr.caranouga.expeditech.common.recipes.ModRecipes;
 import fr.caranouga.expeditech.common.te.ModTileEntities;
