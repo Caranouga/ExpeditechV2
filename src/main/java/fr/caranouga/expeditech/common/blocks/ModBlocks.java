@@ -3,9 +3,9 @@ package fr.caranouga.expeditech.common.blocks;
 import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.blocks.custom.ConsumerMachine;
 import fr.caranouga.expeditech.common.blocks.custom.EnergyDuctMachine;
+import fr.caranouga.expeditech.common.blocks.custom.EnergyDuctMachineT1;
 import fr.caranouga.expeditech.common.blocks.custom.GeneratorMachine;
 import fr.caranouga.expeditech.common.items.ModItems;
-import fr.caranouga.expeditech.common.te.custom.EnergyDuctMachineTE;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.OreBlock;
@@ -36,6 +36,7 @@ public class ModBlocks {
     public static final RegistryObject<GeneratorMachine> GENERATOR = block("generator", GeneratorMachine::new);
     public static final RegistryObject<ConsumerMachine> CONSUMER = block("consumer", ConsumerMachine::new);
     public static final RegistryObject<EnergyDuctMachine> DUCT = block("duct", EnergyDuctMachine::new);
+    public static final RegistryObject<EnergyDuctMachine> DUCT_T1 = block("duct_t1", EnergyDuctMachineT1::new);
     // endregion
 
     // region Utils

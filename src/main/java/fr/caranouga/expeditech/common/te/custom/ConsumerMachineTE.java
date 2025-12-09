@@ -20,7 +20,7 @@ public class ConsumerMachineTE extends TileEntity implements ITickableTileEntity
     private final LazyOptional<CustomEnergyStorage> lazyEnergyStorage = LazyOptional.of(() -> energyStorage);
 
     protected CustomEnergyStorage createEnergyStorage(){
-        return new CustomEnergyStorage(1000);
+        return new CustomEnergyStorage(1000, 1000, 0);
     }
 
     @Nonnull
@@ -70,7 +70,7 @@ public class ConsumerMachineTE extends TileEntity implements ITickableTileEntity
     public void tick() {
         if (this.level == null || this.level.isClientSide) return;
 
-        Expeditech.LOGGER.info("The consumer at {} has {}", getBlockPos(), this.energyStorage.getEnergyStored());
+        // Expeditech.LOGGER.info("The consumer at {} has {}", getBlockPos(), this.energyStorage.getEnergyStored());
 
         //sendOutEnergy();
         setChanged();

@@ -4,6 +4,7 @@ import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
 import fr.caranouga.expeditech.common.te.custom.ConsumerMachineTE;
 import fr.caranouga.expeditech.common.te.custom.EnergyDuctMachineTE;
+import fr.caranouga.expeditech.common.te.custom.EnergyDuctMachineTOneTE;
 import fr.caranouga.expeditech.common.te.custom.GeneratorMachineTE;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -25,7 +26,9 @@ public class ModTileEntities {
 
     // Ducts
     public static final RegistryObject<TileEntityType<EnergyDuctMachineTE>> ENERGY_DUCT = register("energy_duct",
-            () -> TileEntityType.Builder.of(EnergyDuctMachineTE::new, ModBlocks.GENERATOR.get()).build(null));
+            () -> TileEntityType.Builder.of(EnergyDuctMachineTE::new, ModBlocks.DUCT.get()).build(null));
+    public static final RegistryObject<TileEntityType<EnergyDuctMachineTOneTE>> ENERGY_DUCT_T1 = register("energy_duct_t1",
+            () -> TileEntityType.Builder.of(EnergyDuctMachineTOneTE::new, ModBlocks.DUCT_T1.get()).build(null));
 
     // region Utility methods
     private static <T extends TileEntityType<? extends TileEntity>> RegistryObject<T> register(String name, Supplier<T> tileEntityType) {

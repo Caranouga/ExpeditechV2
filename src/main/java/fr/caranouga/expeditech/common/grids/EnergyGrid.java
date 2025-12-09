@@ -174,6 +174,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 
 import java.util.*;
 
@@ -186,24 +188,116 @@ public class EnergyGrid {
     private final ServerWorld world;
     private final EnergyGridSavedData savedData;
 
-    private boolean isLoaded = false;
     private UUID uid = UUID.randomUUID();
+    private EnergyGraph graph = new EnergyGraph();
+
+
+    private Map<BlockPos, IEnergyStorage> genStorages = new HashMap<>();
+    private Map<BlockPos, IEnergyStorage> consStorages = new HashMap<>();
+
+    // TODO: cache
+    // TODO: Randomiser les pair gen/cons
 
     protected EnergyGrid(EnergyGridSavedData savedData, ServerWorld world){
         this.world = world;
         this.savedData = savedData;
 
-        this.isLoaded = true;
-
-        Expeditech.LOGGER.debug(savedData);
-
-        savedData.setDirty();
+        setChanged();
     }
 
     public void tick(){
-        if(!isLoaded) return;
+        Map<Node, Integer> remainingCapacity = new HashMap<>();
 
-        Expeditech.LOGGER.debug("Ticking {}, ducts size {}", uid, ducts.size());
+        graph.calculateCapacity(remainingCapacity);
+
+        for (Map.Entry<BlockPos, TileEntity> genEntry : generators.entrySet()) {
+            BlockPos genPos = genEntry.getKey();
+            TileEntity genTe = genEntry.getValue();
+            IEnergyStorage genCap = genTe.getCapability(CapabilityEnergy.ENERGY).orElse(null);
+            if(genCap == null) continue;
+
+            genStorages.put(genPos, genCap);
+
+            int availableEnergy = genCap.extractEnergy(Integer.MAX_VALUE, true);
+            if(availableEnergy == 0) continue;
+
+            for (Map.Entry<BlockPos, TileEntity> consEntry : consumers.entrySet()) {
+                BlockPos consPos = consEntry.getKey();
+                TileEntity consTe = consEntry.getValue();
+                IEnergyStorage consCap = consTe.getCapability(CapabilityEnergy.ENERGY).orElse(null);
+                if(consCap == null) continue;
+
+                consStorages.put(consPos, consCap);
+
+                int requiredEnergy = consCap.receiveEnergy(Integer.MAX_VALUE, true);
+                if(requiredEnergy == 0) continue;
+
+                Path path = graph.getPath(genPos, consPos);
+                if(path == null) continue;
+
+                // Effective transfer is limited by:
+                // - generator energy
+                // - consumer need
+                // - smallest remaining duct capacity on path
+                int pathCapabity = Integer.MAX_VALUE;
+
+
+                for (Node duct : path.getDucts()) {
+                    if(!duct.isDuct()) continue;
+
+                    pathCapabity = Math.min(pathCapabity, remainingCapacity.get(duct));
+                }
+
+                int energyToTransfer = Math.min(availableEnergy, Math.min(requiredEnergy, pathCapabity));
+                if(energyToTransfer <= 0) continue;
+
+                // Real transfer
+                int realExtract = genCap.extractEnergy(energyToTransfer, false);
+                int realReceive = consCap.receiveEnergy(realExtract, false);
+
+                // Deduct from remaining duct capacities
+                for (Node duct : path.getDucts()) {
+                    if(!duct.isDuct()) continue;
+
+                    remainingCapacity.put(duct, remainingCapacity.get(duct) - realReceive);
+                }
+            }
+        }
+
+        remainingCapacity.clear();
+
+        /*for each generator G:
+            get availableEnergy from G.simulateExtract(maxInt)
+
+            if availableEnergy == 0: continue
+
+            for each consumer C:
+                get requiredEnergy from C.simulateReceive(maxInt)
+
+                if requiredEnergy == 0: continue
+
+                        Path p = graph.getPath(G.position, C.position)
+
+                // Effective transfer is limited by:
+                // - generator energy
+                // - consumer need
+                // - smallest remaining duct capacity on path
+                pathCapacity = +infinity
+                for each duct D in p:
+                    pathCapacity = min(pathCapacity, remainingCapacity[D])
+
+                energyToTransfer = min(availableEnergy, requiredEnergy, pathCapacity)
+
+                if energyToTransfer <= 0: continue
+
+                        // Real transfer
+                        realExtract = G.extractEnergy(energyToTransfer, false)
+                realReceive = C.receiveEnergy(realExtract, false)
+
+                // Deduct from remaining duct capacities
+                for each duct D in p:
+                    remainingCapacity[D] -= realReceive*/
+
     }
 
     public boolean canJoin(BlockPos pos){
@@ -216,13 +310,15 @@ public class EnergyGrid {
         return false;
     }
 
-    public void addDuct(BlockPos pos){
+    public EnergyGrid addDuct(BlockPos pos){
         TileEntity te = world.getBlockEntity(pos);
 
         if(te instanceof EnergyDuctMachineTE){
             ducts.put(pos, (EnergyDuctMachineTE) te);
-            savedData.setDirty();
+            setChanged();
         }
+
+        return this;
     }
 
     private void addDuctAndNotify(BlockPos pos){
@@ -230,9 +326,9 @@ public class EnergyGrid {
 
         if(te instanceof EnergyDuctMachineTE){
             ducts.put(pos, (EnergyDuctMachineTE) te);
-            savedData.setDirty();
+            setChanged();
 
-            ((EnergyDuctMachineTE) te).setInGrid(true);
+            ((EnergyDuctMachineTE) te).setGrid(this);
         }
     }
 
@@ -245,11 +341,35 @@ public class EnergyGrid {
 
         List<EnergyDuctMachineTE> split = getSplit();
         if(!split.isEmpty()){
-            // TODO: En plus des ducts il faut ajouter les autres maps
-            savedData.createGridWithDucts(world, split);
+            EnergyGrid createdGrid = savedData.createGridWithDucts(world, split);
+            switchGrid(createdGrid);
         }
 
-        savedData.setDirty();
+        setChanged();
+    }
+
+    private void switchGrid(EnergyGrid newGrid){
+        Set<BlockPos> consumersPos = consumers.keySet();
+        for (BlockPos consumer : consumersPos) {
+            for (Direction dir : Direction.values()) {
+                if(!ducts.containsKey(consumer.relative(dir))){
+                    consumers.remove(consumer);
+                    newGrid.addConsumer(consumer);
+                }
+            }
+        }
+
+        Set<BlockPos> generatorPos = generators.keySet();
+        for (BlockPos generator : generatorPos) {
+            for (Direction dir : Direction.values()) {
+                if(!ducts.containsKey(generator.relative(dir))){
+                    generators.remove(generator);
+                    newGrid.addGenerator(generator);
+                }
+            }
+        }
+
+        setChanged();
     }
 
     private List<EnergyDuctMachineTE> getSplit(){
@@ -262,29 +382,33 @@ public class EnergyGrid {
             if(!canJoin(duct.getBlockPos())) split.add(ducts.remove(duct.getBlockPos()));
         }
 
+        setChanged();
+
         return split;
     }
 
-    private void addGenerator(BlockPos pos){
+    public void addGenerator(BlockPos pos){
         TileEntity te = world.getBlockEntity(pos);
         if(te == null) return;
 
         generators.put(pos, te);
-        savedData.setDirty();
+        setChanged();
     }
 
-    private void addConsumer(BlockPos pos){
+    public void addConsumer(BlockPos pos){
         TileEntity te = world.getBlockEntity(pos);
         if(te == null) return;
 
         consumers.put(pos, te);
-        savedData.setDirty();
+        setChanged();
     }
 
     public void fuse(EnergyGrid grid) {
         this.ducts.putAll(grid.ducts);
         this.generators.putAll(grid.generators);
         this.consumers.putAll(grid.consumers);
+
+        setChanged();
     }
 
     public static EnergyGrid of(ServerWorld worldRef, CompoundNBT nbt, EnergyGridSavedData savedData){
@@ -307,8 +431,6 @@ public class EnergyGrid {
         for (INBT c : consumerList) {
             g.addConsumer(NBTUtil.readBlockPos((CompoundNBT) c));
         }
-
-        g.isLoaded = true;
 
         return g;
     }
@@ -341,5 +463,38 @@ public class EnergyGrid {
         gridNbt.put("generators", generatorList);
 
         return gridNbt;
+    }
+
+    public void tryRemove(BlockPos pos) {
+        consumers.remove(pos);
+        generators.remove(pos);
+
+        setChanged();
+    }
+
+    private void setChanged(){
+        graph.setChanged(world, generators.keySet(), consumers.keySet(), ducts.keySet());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("----== ==----\n");
+        builder.append("UUID: ").append(uid).append("\n");
+        builder.append("World: ").append(world).append("\n");
+        builder.append("Ducts: ").append("\n");
+        for (BlockPos duct : ducts.keySet()) {
+            builder.append("    ").append(duct).append("\n");
+        }
+        builder.append("Generators: ").append("\n");
+        for (BlockPos generator : generators.keySet()) {
+            builder.append("    ").append(generator).append("\n");
+        }
+        builder.append("Consumers: ").append("\n");
+        for (BlockPos consumer : consumers.keySet()) {
+            builder.append("    ").append(consumer).append("\n");
+        }
+        builder.append("----== ==----");
+        return builder.toString();
     }
 }

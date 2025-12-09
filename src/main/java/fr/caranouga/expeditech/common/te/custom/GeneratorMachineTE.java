@@ -20,7 +20,7 @@ public class GeneratorMachineTE extends TileEntity implements ITickableTileEntit
     private final LazyOptional<CustomEnergyStorage> lazyEnergyStorage = LazyOptional.of(() -> energyStorage);
 
     protected CustomEnergyStorage createEnergyStorage(){
-        return new CustomEnergyStorage(1000);
+        return new CustomEnergyStorage(1000, 0, 1000);
     }
 
     @Nonnull
@@ -72,7 +72,7 @@ public class GeneratorMachineTE extends TileEntity implements ITickableTileEntit
 
         this.energyStorage.addEnergy(1);
 
-        Expeditech.LOGGER.info("The generator at {} has {}", getBlockPos(), this.energyStorage.getEnergyStored());
+        // Expeditech.LOGGER.info("The generator at {} has {}", getBlockPos(), this.energyStorage.getEnergyStored());
 
         //sendOutEnergy();
         setChanged();

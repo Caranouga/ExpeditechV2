@@ -61,6 +61,7 @@ public class EnergyDuctMachine extends Block {
 }
 */
 
+import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.te.ModTileEntities;
 import fr.caranouga.expeditech.common.te.custom.EnergyDuctMachineTE;
 import net.minecraft.block.Block;
@@ -101,6 +102,19 @@ public class EnergyDuctMachine extends Block {
         te.onPlaced();
     }
 
+    @Override
+    public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
+        super.onNeighborChange(state, world, pos, neighbor);
+
+        EnergyDuctMachineTE te = getTileEntity(world, pos);
+        if(te == null) return;
+
+        TileEntity neighborTe = world.getBlockEntity(neighbor);
+        Direction neighborSide = getDirectionFrom(pos, neighbor);
+
+        te.neighborChanged(neighborTe, neighbor, neighborSide);
+    }
+
     @Nullable
     private EnergyDuctMachineTE getTileEntity(IWorldReader world, BlockPos pos){
         TileEntity te = world.getBlockEntity(pos);
@@ -111,7 +125,7 @@ public class EnergyDuctMachine extends Block {
     @Nullable
     private Direction getDirectionFrom(BlockPos posA, BlockPos posB){
         for(Direction dir : Direction.values()){
-            if(posA.relative(dir) == posB) return dir;
+            if(posA.relative(dir).equals(posB)) return dir;
         }
 
         return null;
