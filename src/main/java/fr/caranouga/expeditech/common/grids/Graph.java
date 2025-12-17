@@ -1,70 +1,138 @@
-/*package fr.caranouga.expeditech.common.grids;
+package fr.caranouga.expeditech.common.grids;
 
-import fr.caranouga.expeditech.Expeditech;
-import fr.caranouga.expeditech.common.te.custom.EnergyDuctMachineTE;
+import fr.caranouga.expeditech.common.te.custom.duct.DuctTE;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.*;
 
-public class Graph {
+public class Graph<D extends DuctTE<?, D>> {
+    private final Map<BlockPos, Node<D>> nodes = new HashMap<>();
+    private final Map<Node<D>, Map<Node<D>, Path<D>>> pathTable = new HashMap<>();
+    private final Class<D> ductClass;
 
-    private final Map<BlockPos, List<BlockPos>> ductAdj = new HashMap<>();
-    private final Map<BlockPos, List<BlockPos>> genAdj = new HashMap<>();
-    private final Map<BlockPos, List<BlockPos>> consAdj = new HashMap<>();
+    public Graph(Class<D> ductClass) {
+        this.ductClass = ductClass;
+    }
 
-    public Graph(ServerWorld world,
-                 Set<BlockPos> ducts,
-                 Set<BlockPos> generators,
-                 Set<BlockPos> consumers) {
+    // TODO: Passer les adjency list en param
+    public void setChanged(ServerWorld world, Set<BlockPos> generators, Set<BlockPos> consumers, Set<BlockPos> ducts){
+        clear();
 
-        for (BlockPos duct : ducts) {
+        createNodes(world, generators, consumers, ducts);
+        computeGraph(generators, consumers, ducts);
+        computePaths();
+    }
 
+    public Path<D> getPath(BlockPos genPos, BlockPos consPos){
+        Node<D> startNode = nodes.get(genPos);
+        Node<D> endNode = nodes.get(consPos);
+
+        return pathTable.getOrDefault(startNode, Collections.emptyMap()).get(endNode);
+    }
+
+    private void createNodes(ServerWorld world, Set<BlockPos> generators, Set<BlockPos> consumers, Set<BlockPos> ducts){
+        generators.forEach(gen -> nodes.put(gen, new Node<>(world, gen, ductClass)));
+        consumers.forEach(cons -> nodes.put(cons, new Node<>(world,cons, ductClass)));
+        ducts.forEach(duct -> nodes.put(duct, new Node<>(world,duct, ductClass)));
+    }
+
+    private void computeGraph(Set<BlockPos> generators, Set<BlockPos> consumers, Set<BlockPos> ducts){
+        nodes.forEach((pos, node) -> {
             for (Direction dir : Direction.values()) {
+                BlockPos otherPos = pos.relative(dir);
 
-                BlockPos other = duct.relative(dir);
+                boolean isDuct = ducts.contains(otherPos);
+                boolean isGen = generators.contains(otherPos);
+                boolean isCons = consumers.contains(otherPos);
 
+                Node<D> other = nodes.get(otherPos);
 
-                boolean isGen = generators.contains(other);
-                boolean isCons = consumers.contains(other);
-                boolean isDuct = world.getBlockEntity(other) instanceof EnergyDuctMachineTE;
+                /*
+                Possible cases:
+                |               | This is duct | This is cons | This is gen  |
+                | Other is duct | Connect both | Skip*        | Skip*        |
+                | Other is cons | Connect d->c | Do nothing   | Do nothing   |
+                | Other is gen  | Connect g->d | Do nothing   | Do nothing   |
+                * duct will handle the connection
+                 */
 
-                // If generator or consumer is adjacent → special edges
-                if (isGen) {
-                    add(genAdj, other, duct);
+                if(!node.isDuct()) return;
+
+                if(isDuct){
+                    node.addDuct(other);
+                } else if (isGen) {
+                    node.addGen(other);
+                }else if (isCons){
+                    node.addCons(other);
                 }
-                if (isCons) {
-                    add(consAdj, other, duct);
+            }
+        });
+    }
+
+    private void computePaths(){
+        nodes.forEach((pos, node) -> {
+            dijkstra(node);
+        });
+    }
+
+    /** Warning this Dijkstra algorithm does not minimize the "distance" (bottleneck), but maximize it **/
+    private void dijkstra(Node<D> start){
+        Map<Node<D>, Integer> dist = new HashMap<>(); // Distance from "start" to each node
+        Map<Node<D>, List<Node<D>>> bestPaths = new HashMap<>();
+        PriorityQueue<Node<D>> queue = new PriorityQueue<>((a, b) -> Integer.compare(dist.get(b), dist.get(a)));
+
+        // We init the dist at 0 as we'll try to maximize it and put the start node in each path
+        for (Node<D> node : nodes.values()) {
+            dist.put(node, 0);
+            node.getConnections().forEach((n, distance) -> dist.put(n, 0));
+            bestPaths.put(node, new ArrayList<>());
+        }
+
+        dist.put(start, Integer.MAX_VALUE);
+        bestPaths.put(start, Collections.singletonList(start));
+        queue.add(start);
+
+        // Actual Dijkstra "loop"
+        while(!queue.isEmpty()){
+            Node<D> currentNode = queue.poll();
+            int currentBottleneck = dist.get(currentNode);
+
+            for (Map.Entry<Node<D>, Integer> edge : currentNode.getConnections().entrySet()) {
+                Node<D> neighbor = edge.getKey();
+                int cap = edge.getValue();
+
+                int newBottleneck = Math.min(currentBottleneck, cap);
+                if(newBottleneck > dist.get(neighbor)){
+                    dist.put(neighbor, newBottleneck);
+
+                    List<Node<D>> newPath = new ArrayList<>(bestPaths.get(currentNode));
+                    newPath.add(neighbor);
+                    bestPaths.put(neighbor, newPath);
+
+                    Path<D> path = new Path<>(newPath);
+
+                    pathTable.computeIfAbsent(start, k -> new HashMap<>()).put(neighbor, path);
+
+                    queue.add(neighbor);
                 }
 
-                // Duct-to-duct edges
-                if (isDuct) {
-                    add(ductAdj, duct, other);
-                    add(ductAdj, other, duct); // bidirectional
-                }
             }
         }
     }
 
-    // ------------ Adjacency Utilities ------------ //
-
-    private void add(Map<BlockPos, List<BlockPos>> map, BlockPos from, BlockPos to) {
-        map.computeIfAbsent(from, k -> new ArrayList<>()).add(to);
+    @SuppressWarnings("unchecked")
+    public void calculateCapacity(Map<Node<D>, Integer> remainingCapacityMap){
+        nodes.forEach((pos, node) -> {
+            if(node.isDuct()) {
+                remainingCapacityMap.put(node, ((D) node.getTile()).getMaxTransferPerTick());
+            }
+        });
     }
 
-    // ------------ Accessors ------------ //
-
-    public Map<BlockPos, List<BlockPos>> getDuctGraph() {
-        return ductAdj;
-    }
-
-    public Map<BlockPos, List<BlockPos>> getGeneratorAdj() {
-        return genAdj;
-    }
-
-    public Map<BlockPos, List<BlockPos>> getConsumerAdj() {
-        return consAdj;
+    private void clear(){
+        nodes.clear();
+        pathTable.clear();
     }
 }
-*/

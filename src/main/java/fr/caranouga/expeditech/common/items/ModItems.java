@@ -1,6 +1,9 @@
 package fr.caranouga.expeditech.common.items;
 
 import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.common.blocks.ModBlocks;
+import fr.caranouga.expeditech.common.blocks.custom.duct.Duct;
+import fr.caranouga.expeditech.common.items.custom.DuctItem;
 import fr.caranouga.expeditech.common.items.custom.SandingPaperItem;
 import fr.caranouga.expeditech.common.tab.ModTabs;
 import net.minecraft.block.Block;
@@ -24,6 +27,8 @@ public class ModItems {
                 .tab(ModTabs.EXPEDITECH)
                 .durability(16))
     );
+
+    public static final RegistryObject<DuctItem> ENERGY_DUCT = item("energy_duct", () -> new DuctItem(ModBlocks.ENERGY_DUCT.get(), new Item.Properties().tab(ModTabs.EXPEDITECH)));
     // endregion
 
     // region Utils

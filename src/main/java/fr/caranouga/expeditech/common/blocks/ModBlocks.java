@@ -1,10 +1,9 @@
 package fr.caranouga.expeditech.common.blocks;
 
 import fr.caranouga.expeditech.Expeditech;
-import fr.caranouga.expeditech.common.blocks.custom.ConsumerMachine;
-import fr.caranouga.expeditech.common.blocks.custom.EnergyDuctMachine;
-import fr.caranouga.expeditech.common.blocks.custom.EnergyDuctMachineT1;
-import fr.caranouga.expeditech.common.blocks.custom.GeneratorMachine;
+import fr.caranouga.expeditech.common.blocks.custom.*;
+import fr.caranouga.expeditech.common.blocks.custom.duct.Duct;
+import fr.caranouga.expeditech.common.blocks.custom.duct.EnergyDuct;
 import fr.caranouga.expeditech.common.items.ModItems;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -35,8 +34,9 @@ public class ModBlocks {
     // Machines
     public static final RegistryObject<GeneratorMachine> GENERATOR = block("generator", GeneratorMachine::new);
     public static final RegistryObject<ConsumerMachine> CONSUMER = block("consumer", ConsumerMachine::new);
-    public static final RegistryObject<EnergyDuctMachine> DUCT = block("duct", EnergyDuctMachine::new);
-    public static final RegistryObject<EnergyDuctMachine> DUCT_T1 = block("duct_t1", EnergyDuctMachineT1::new);
+
+    // Ducts
+    public static final RegistryObject<EnergyDuct> ENERGY_DUCT = duct("energy", EnergyDuct::new);
     // endregion
 
     // region Utils
@@ -53,10 +53,14 @@ public class ModBlocks {
     }
 
     private static <B extends Block> RegistryObject<B> block(String id, Supplier<B> supplier){
-        RegistryObject<B> blockObj = BLOCKS.register(id, supplier);
+        RegistryObject<B> blockObj = blockWithoutItem(id, supplier);
         ModItems.blockItem(id, blockObj);
 
         return blockObj;
+    }
+
+    private static <B extends Block> RegistryObject<B> blockWithoutItem(String id, Supplier<B> supplier){
+        return BLOCKS.register(id, supplier);
     }
 
     /**
@@ -69,6 +73,10 @@ public class ModBlocks {
      */
     private static RegistryObject<OreBlock> ore(String id, AbstractBlock.Properties properties){
         return block(id, () -> new OreBlock(properties));
+    }
+
+    private static <D extends Duct<?>> RegistryObject<D> duct(String id, Supplier<D> supplier){
+        return blockWithoutItem(id + "_duct", supplier);
     }
     // endregion
 

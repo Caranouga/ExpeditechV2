@@ -1,9 +1,12 @@
 package fr.caranouga.expeditech;
 
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
+import fr.caranouga.expeditech.common.blocks.custom.duct.DuctTier;
 import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.items.custom.DuctItem;
 import fr.caranouga.expeditech.common.recipes.ModRecipes;
 import fr.caranouga.expeditech.common.te.ModTileEntities;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -33,7 +36,16 @@ public class Expeditech
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            ItemModelsProperties.register(
+                    ModItems.ENERGY_DUCT.get(),
+                    DuctTier.TIER_PREDICATE,
+                    (stack, level, entity) -> {
+                        if(!stack.hasTag()) return 0f;
 
+                        DuctTier tier = DuctTier.byName(stack.getTag().getString(DuctItem.TIER_TAG));
+                        return tier == null ? 0f : tier.getId();
+                    }
+            );
         });
     }
 }

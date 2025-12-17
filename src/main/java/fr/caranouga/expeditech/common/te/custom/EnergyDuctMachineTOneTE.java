@@ -1,4 +1,4 @@
-package fr.caranouga.expeditech.common.te.custom;
+/*package fr.caranouga.expeditech.common.te.custom;
 
 import fr.caranouga.expeditech.common.grids.EnergyGrid;
 import fr.caranouga.expeditech.common.grids.EnergyGridSavedData;
@@ -22,3 +22,4 @@ public class EnergyDuctMachineTOneTE extends EnergyDuctMachineTE {
         return 1;
     }
 }
+*/
