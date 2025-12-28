@@ -1,7 +1,6 @@
 package fr.caranouga.expeditech.common.te.custom.duct;
 
 import fr.caranouga.expeditech.common.grids.cap.EnergyGridCapWrapper;
-import fr.caranouga.expeditech.common.grids.cap.GridCapabilityWrapper;
 import fr.caranouga.expeditech.common.grids.data.EnergyGridSavedData;
 import fr.caranouga.expeditech.common.te.ModTileEntities;
 import net.minecraft.world.server.ServerWorld;

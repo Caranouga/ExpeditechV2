@@ -49,23 +49,14 @@ public class Graph<D extends DuctTE<?, D>> {
 
                 Node<D> other = nodes.get(otherPos);
 
-                /*
-                Possible cases:
-                |               | This is duct | This is cons | This is gen  |
-                | Other is duct | Connect both | Skip*        | Skip*        |
-                | Other is cons | Connect d->c | Do nothing   | Do nothing   |
-                | Other is gen  | Connect g->d | Do nothing   | Do nothing   |
-                * duct will handle the connection
-                 */
-
                 if(!node.isDuct()) return;
 
                 if(isDuct){
                     node.addDuct(other);
                 } else if (isGen) {
-                    node.addGen(other);
+                    node.addGenerator(other);
                 }else if (isCons){
-                    node.addCons(other);
+                    node.addConsumer(other);
                 }
             }
         });

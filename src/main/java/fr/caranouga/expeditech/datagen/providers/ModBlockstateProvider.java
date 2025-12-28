@@ -39,6 +39,10 @@ public class ModBlockstateProvider extends BlockStateProvider {
         });
     }
 
+    /**
+     * This function generates duct's models
+     * @param duct The duct to generate the duct for
+     */
     private void registerDuctBlock(Duct<?> duct) {
         MultiPartBlockStateBuilder builder = getMultipartBuilder(duct);
 

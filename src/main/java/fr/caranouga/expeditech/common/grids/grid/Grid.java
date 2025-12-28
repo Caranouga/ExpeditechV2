@@ -28,10 +28,6 @@ public abstract class Grid<C, D extends DuctTE<C, D>> {
     private final Class<D> ductClass;
     private final GridCapabilityWrapper<C> capWrapper;
 
-    private final Set<C> gen = new HashSet<>();
-    private final Set<C> cons = new HashSet<>();
-
-    // TODO: cache
     // TODO: Randomiser les pair gen/cons
 
     public Grid(GridSavedData<C, D> savedData, ServerWorld world, Class<D> ductClass, GridCapabilityWrapper<C> capWrapper){
@@ -75,8 +71,6 @@ public abstract class Grid<C, D extends DuctTE<C, D>> {
             C genCap = genTe.getCapability(getCapability()).orElse(null);
             if(genCap == null) continue;
 
-            gen.add(genCap);
-
             int availableEnergy = capWrapper.extract(genCap, Integer.MAX_VALUE, true);
             if(availableEnergy == 0) continue;
 
@@ -85,8 +79,6 @@ public abstract class Grid<C, D extends DuctTE<C, D>> {
                 TileEntity consTe = consEntry.getValue();
                 C consCap = consTe.getCapability(getCapability()).orElse(null);
                 if(consCap == null) continue;
-
-                cons.add(consCap);
 
                 int requiredEnergy = capWrapper.receive(consCap, Integer.MAX_VALUE, true);
                 if(requiredEnergy == 0) continue;
@@ -218,6 +210,10 @@ public abstract class Grid<C, D extends DuctTE<C, D>> {
         setChanged();
     }
 
+    /**
+     * This function fuse two grids together
+     * @param grid The grid to fuse with this one
+     */
     public void fuse(Grid<C, D> grid) {
         this.ducts.putAll(grid.ducts);
         this.generators.putAll(grid.generators);

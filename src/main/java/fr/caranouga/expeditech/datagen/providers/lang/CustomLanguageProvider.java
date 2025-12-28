@@ -13,7 +13,6 @@ import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.util.Tuple;
 import net.minecraftforge.fml.RegistryObject;
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
 
@@ -38,7 +37,6 @@ public abstract class CustomLanguageProvider implements IDataProvider {
 
     /**
      * This function populates the data hashmap containing the translations
-     * @since 1.0.0
      */
     protected abstract void addTranslations();
 
@@ -69,7 +67,6 @@ public abstract class CustomLanguageProvider implements IDataProvider {
 
     /**
      * This function verify that all locales defined during the class initialization have received translations
-     * @since 1.0.0
      */
     private void verifyIfAllLocalesAreSet(){
         for (Locale locale : Locale.values()) {
@@ -80,7 +77,6 @@ public abstract class CustomLanguageProvider implements IDataProvider {
     /**
      * This function verify that all items, blocks, ... have translations
      * This function does not stop the provider if something is missing, it only prints a message to the console
-     * @since 1.0.0
      */
     private void verifyIfAllContentIsSet(){
         // Items
@@ -102,7 +98,6 @@ public abstract class CustomLanguageProvider implements IDataProvider {
 
     /**
      * This functions that all locales have the same keys
-     * @since 1.0.0
      */
     private void checkDiff(){
         ArrayList<String> keys = new ArrayList<>(data.get(Locale.EN_US).keySet());
@@ -134,7 +129,6 @@ public abstract class CustomLanguageProvider implements IDataProvider {
      * @param dataMap The map containing the translations
      * @param path The path of the file to put translations in
      * @throws IOException If the buffer cannot be written
-     * @since 1.0.0
      */
     private void save(DirectoryCache cache, Map<String, String> dataMap, Path path) throws IOException {
         String data = GSON.toJson(dataMap);
@@ -153,21 +147,37 @@ public abstract class CustomLanguageProvider implements IDataProvider {
 
     /**
      * This function should be used to change the locale the translations will be written into
-     * @since 1.0.0
      */
     protected void selectLocale(Locale locale){
         this.currentLocale = locale;
     }
 
     // region Register function
+
+    /**
+     * This function add an item's translation
+     * @param item The item to generate the translation for
+     * @param translation The translation
+     */
     protected void addItem(RegistryObject<? extends Item> item, String translation){
         add(item.get().getDescriptionId(), translation);
     }
 
+    /**
+     * This function add a block's translation
+     * @param block The block to generate the translation for
+     * @param translation The translation
+     */
     protected void addBlock(RegistryObject<? extends Block> block, String translation){
         add(block.get().getDescriptionId(), translation);
     }
 
+    /**
+     * This function add a duct's translation
+     * @param duct The duct to generate the translation for
+     * @param baseTranslation The base translation (should contain 1 "%s" that'll be replaced by the duct's tier)
+     * @param trans The translation for each of the duct tier
+     */
     protected void addDuct(RegistryObject<? extends Duct<?>> duct, String baseTranslation, Map<DuctTier, String> trans){
         for (DuctTier tier : DuctTier.values()) {
             add(
@@ -177,15 +187,21 @@ public abstract class CustomLanguageProvider implements IDataProvider {
         }
     }
 
+    /**
+     * This function add an item group's translation
+     * @param group The item group to generate the translation for
+     * @param translation The translation
+     */
     protected void addItemGroup(ItemGroup group, String translation){
         add(group.getDisplayName().getString(), translation);
     }
 
-    protected void addCustom(String key, String value){
-        add(key, value);
-    }
-
-    private void add(String key, String value){
+    /**
+     * This function add a translation based on a key
+     * @param key The key to translate for
+     * @param value The translation
+     */
+    protected void add(String key, String value){
         this.data.computeIfAbsent(currentLocale, k -> new HashMap<>());
         if(this.data.get(currentLocale).put(key, value) != null){
             throw new IllegalStateException("Duplicate translation key " + key);

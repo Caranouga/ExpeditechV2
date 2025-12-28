@@ -21,7 +21,6 @@ public class ModBlockTagProvider extends BlockTagsProvider {
      * This function adds the given blocks to the tag
      * @param tag The tag to add the blocks to
      * @param blocks The blocks to add
-     * @since 1.0.0
      */
     private void addTag(Tags.IOptionalNamedTag<Block> tag, Block... blocks){
         this.tag(tag).add(blocks);

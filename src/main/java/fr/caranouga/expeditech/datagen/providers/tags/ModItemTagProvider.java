@@ -21,7 +21,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
      * This function adds the given items to the tag
      * @param tag The tag to add the items to
      * @param items The items to add
-     * @since 1.0.0
      */
     private void addTag(Tags.IOptionalNamedTag<Item> tag, Item... items){
         this.tag(tag).add(items);

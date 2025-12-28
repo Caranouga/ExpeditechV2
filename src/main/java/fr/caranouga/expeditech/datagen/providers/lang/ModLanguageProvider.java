@@ -24,6 +24,9 @@ public class ModLanguageProvider extends CustomLanguageProvider {
         addFR_FR();
     }
 
+    /**
+     * This function generates the translations for en_US
+     */
     private void addEN_US(){
         selectLocale(Locale.EN_US);
 
@@ -41,11 +44,14 @@ public class ModLanguageProvider extends CustomLanguageProvider {
 
         addItemGroup(ModTabs.EXPEDITECH, "Expeditech");
 
-        addCustom("book.et.engineering_manual.name", "The Great Engineering Manual");
-        addCustom("book.et.engineering_manual.subtitle", "A serious guide to surviving your own inventions - with minimal explosions.");
-        addCustom("book.et.engineering_manual.description", "$(l)Welcome to $()$(thing)The Great Engineering Manual$()$(br2)This manual brings together everything you need to understand your new machines, ores, structures, and creatures.$(br)Take a deep breath, adjust your helmet...$(br)The adventure begins !");
+        add("book.et.engineering_manual.name", "The Great Engineering Manual");
+        add("book.et.engineering_manual.subtitle", "A serious guide to surviving your own inventions - with minimal explosions.");
+        add("book.et.engineering_manual.description", "$(l)Welcome to $()$(thing)The Great Engineering Manual$()$(br2)This manual brings together everything you need to understand your new machines, ores, structures, and creatures.$(br)Take a deep breath, adjust your helmet...$(br)The adventure begins !");
     }
 
+    /**
+     * This function generates the translations for fr_FR
+     */
     private void addFR_FR(){
         selectLocale(Locale.FR_FR);
         addItem(ModItems.CARANITE, "Caranite");
@@ -62,8 +68,8 @@ public class ModLanguageProvider extends CustomLanguageProvider {
 
         addItemGroup(ModTabs.EXPEDITECH, "Expeditech");
 
-        addCustom("book.et.engineering_manual.name", "Le grand manuel d'ingénierie");
-        addCustom("book.et.engineering_manual.subtitle", "Un guide sérieux pour survivre à vos propres inventions - avec un minimum d’explosions.");
-        addCustom("book.et.engineering_manual.description", "$(l)Bienvenue dans $()$(thing)Le Grand Manuel D'ingénierie$()$(br2)Ce manuel rassemble tout ce qu'il faut pour comprendre vos nouvelles machines, minerais, structures et créatures.$(br)Prenez une grande inspiration, ajustez votre casque...$(br)L'aventure commence !");
+        add("book.et.engineering_manual.name", "Le grand manuel d'ingénierie");
+        add("book.et.engineering_manual.subtitle", "Un guide sérieux pour survivre à vos propres inventions - avec un minimum d’explosions.");
+        add("book.et.engineering_manual.description", "$(l)Bienvenue dans $()$(thing)Le Grand Manuel D'ingénierie$()$(br2)Ce manuel rassemble tout ce qu'il faut pour comprendre vos nouvelles machines, minerais, structures et créatures.$(br)Prenez une grande inspiration, ajustez votre casque...$(br)L'aventure commence !");
     }
 }

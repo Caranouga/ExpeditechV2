@@ -36,6 +36,10 @@ public class ModBlockModelProvider extends BlockModelProvider {
         });
     }
 
+    /**
+     * This function generates a duct block model
+     * @param duct The duct to generate the model for
+     */
     private void generateDuctBlock(Duct<?> duct) {
         String type = duct.getType();
 

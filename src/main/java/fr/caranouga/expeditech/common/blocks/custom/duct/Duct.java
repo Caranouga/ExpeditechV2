@@ -61,7 +61,6 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
     public static final VoxelShape SHAPE_DOWN = Block.box(6.5, 0, 6.5, 9.5, 6.5, 9.5);
     public static final VoxelShape SHAPE_CORE = Block.box(6.5, 6.5, 6.5, 9.5, 9.5, 9.5);
 
-    // TODO: Make the shape
     protected Duct(Class<D> ductClass, String type, DuctTier... tiers) {
         // TODO: Complete the properties
         super(Properties.of(Material.METAL));
@@ -130,7 +129,7 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
     @Override
     public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
         super.onNeighborChange(state, world, pos, neighbor);
-        // TODO: Check pk a chaque machine placé ya une nouvelle grid de créé
+
         DuctTE<?, D> te = getTileEntity(world, pos);
         if(te == null) return;
 
@@ -141,8 +140,8 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
     }
 
     @Override
-    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos pos1, boolean b) {
-        super.neighborChanged(state, world, pos, block, pos1, b);
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, world, pos, block, fromPos, isMoving);
         BlockState newState = getState(world, pos);
         if (!state.getProperties().stream().allMatch(property -> state.getValue(property).equals(newState.getValue(property)))) {
             world.setBlockAndUpdate(pos, getState(world, pos));
@@ -189,32 +188,38 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
     }
 
     @Override
-    public PushReaction getPistonPushReaction(BlockState pState) {
+    @Nonnull
+    public PushReaction getPistonPushReaction(@Nonnull  BlockState pState) {
         return PushReaction.BLOCK;
     }
 
     @Override
-    public VoxelShape getOcclusionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    @Nonnull
+    public VoxelShape getOcclusionShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos) {
         return getShape(state);
     }
 
     @Override
-    public VoxelShape getVisualShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
+    @Nonnull
+    public VoxelShape getVisualShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return getShape(state);
     }
 
     @Override
-    public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    @Nonnull
+    public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return getShape(state);
     }
 
     @Override
-    public VoxelShape getBlockSupportShape(BlockState state, IBlockReader reader, BlockPos pos) {
+    @Nonnull
+    public VoxelShape getBlockSupportShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
         return getShape(state);
     }
 
     @Override
-    public VoxelShape getInteractionShape(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    @Nonnull
+    public VoxelShape getInteractionShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos) {
         return getShape(state);
     }
 
@@ -231,12 +236,14 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
     }
 
     @Override
+    @Nonnull
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+    @Nonnull
+    public BlockState updateShape(BlockState stateIn, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull IWorld worldIn, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         if (stateIn.getValue(WATERLOGGED)) {
             worldIn.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(worldIn));
         }
@@ -244,7 +251,8 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+    @Nonnull
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return getShape(state);
     }
 

@@ -28,6 +28,14 @@ public class ModTileEntities {
             () -> TileEntityType.Builder.of(EnergyDuctTE::new, ModBlocks.ENERGY_DUCT.get()).build(null));
 
     // region Utility methods
+
+    /**
+     * This function register a tile entity
+     * @param name The tile entity's name
+     * @param tileEntityType The tile entity type
+     * @return The RegistryObject associated with the registered tile entity
+     * @param <T> The tile entity's type
+     */
     private static <T extends TileEntityType<? extends TileEntity>> RegistryObject<T> register(String name, Supplier<T> tileEntityType) {
         return TILE_ENTITIES.register(name, tileEntityType);
     }

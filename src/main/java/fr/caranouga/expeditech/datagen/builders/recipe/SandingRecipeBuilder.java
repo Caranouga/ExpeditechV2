@@ -42,15 +42,30 @@ public class SandingRecipeBuilder {
     }
 
     // region Requires
+    /**
+     * Add an input for the recipe
+     * @param pTag The item's tag
+     * @return the builder
+     */
     public SandingRecipeBuilder requires(ITag<Item> pTag) {
         return this.requires(Ingredient.of(pTag));
     }
 
+    /**
+     * Add an input for the recipe
+     * @param pItem the item
+     * @return the builder
+     */
     public SandingRecipeBuilder requires(IItemProvider pItem) {
         this.requires(Ingredient.of(pItem));
         return this;
     }
 
+    /**
+     * Add an input for the recipe
+     * @param pIngredient The ingredient
+     * @return the builder
+     */
     public SandingRecipeBuilder requires(Ingredient pIngredient) {
         this.ingredient = pIngredient;
         return this;
@@ -58,6 +73,12 @@ public class SandingRecipeBuilder {
     // endregion
 
     // region Unlocked by
+    /**
+     * Add a requirement for the recipe
+     * @param name The criterion name
+     * @param trigger The trigger
+     * @return the builder
+     */
     public SandingRecipeBuilder unlockedBy(String name, ICriterionInstance trigger) {
         this.advancement.addCriterion(name, trigger);
         return this;
@@ -65,10 +86,19 @@ public class SandingRecipeBuilder {
     // endregion
 
     // Save
+    /**
+     * Saved the recipe to it's file
+     * @param finishedRecipeConsumer The recipe builder
+     */
     public void save(Consumer<IFinishedRecipe> finishedRecipeConsumer) {
         this.save(finishedRecipeConsumer, ForgeRegistries.ITEMS.getKey(this.result));
     }
 
+    /**
+     * Saved the recipe to it's file
+     * @param finishedRecipeConsumer The recipe builder
+     * @param path The file's path
+     */
     public void save(Consumer<IFinishedRecipe> finishedRecipeConsumer, String path) {
         ResourceLocation resourcelocation = ForgeRegistries.ITEMS.getKey(this.result);
         if (new ResourceLocation(path).equals(resourcelocation)) {
@@ -78,6 +108,11 @@ public class SandingRecipeBuilder {
         }
     }
 
+    /**
+     * Saved the recipe to it's file
+     * @param finishedRecipeConsumer The recipe builder
+     * @param location The file's resource location
+     */
     public void save(Consumer<IFinishedRecipe> finishedRecipeConsumer, ResourceLocation location) {
         this.ensureValid(location);
         this.advancement.parent(

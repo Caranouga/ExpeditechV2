@@ -55,10 +55,19 @@ public class ModItemModelsProvider extends ItemModelProvider {
         });
     }
 
+    /**
+     * This function generates an item model based on a parent and a texture
+     * @param itemGenerated The parent model
+     * @param name The texture ("example" points to "assets/.../textures/item/example")
+     */
     private void builder(ModelFile itemGenerated, String name){
         getBuilder(name).parent(itemGenerated).texture("layer0", "item/" + name);
     }
 
+    /**
+     * This function generates a duct item model
+     * @param duct The duct to generate the item model for
+     */
     private void generateDuctItem(Duct<?> duct) {
         String type = duct.getType();
 

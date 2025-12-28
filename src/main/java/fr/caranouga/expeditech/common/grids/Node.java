@@ -34,11 +34,11 @@ public class Node<D extends DuctTE<?, D>> {
         connections.put(other, Math.min(maxTransfer, other.maxTransfer));
     }
 
-    public void addGen(Node<D> other) {
+    public void addGenerator(Node<D> other) {
         other.connections.put(this, maxTransfer);
     }
 
-    public void addCons(Node<D> other) {
+    public void addConsumer(Node<D> other) {
         connections.put(other, maxTransfer);
     }
 

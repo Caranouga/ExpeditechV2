@@ -29,10 +29,25 @@ public class ModRecipes {
     // endregion
 
     // region Utils
+
+    /**
+     * This function registers a recipe serializer
+     * @param id The recipe id
+     * @param serializerSupplier The recipe serializer
+     * @return A registry object for the serializer
+     * @param <S> The recipe serializer
+     */
     private static <S extends IRecipeSerializer<?>> RegistryObject<S> serializer(ResourceLocation id, Supplier<S> serializerSupplier){
         return RECIPE_SERIALIZERS.register(id.getPath(), serializerSupplier);
     }
 
+    /**
+     * This function registers the recipe
+     * @param id The recipe id
+     * @param type The recipe type
+     * @return A {@link IRecipeType} for the recipe
+     * @param <T> The {@link IRecipeType}
+     */
     private static <T extends IRecipe<?>> IRecipeType<T> recipe(ResourceLocation id, IRecipeType<T> type){
         RECIPE_TYPES.put(type, id);
 

@@ -47,7 +47,7 @@ public abstract class GridSavedData<C, D extends DuctTE<C, D>> extends WorldSave
     public Grid<C, D> registerNewDuct(D duct) {
         BlockPos pos = duct.getBlockPos();
 
-        List<Grid<C, D>> joinableGrids = getJoinableGrids(pos);
+        List<Grid<C, D>> joinableGrids = getJoignableGrids(pos);
         if(joinableGrids.size() > 1) {
             // Fuse
             return fuseGrids(joinableGrids).addDuct(pos);
@@ -77,14 +77,14 @@ public abstract class GridSavedData<C, D extends DuctTE<C, D>> extends WorldSave
         return mainGrid;
     }
 
-    private List<Grid<C, D>> getJoinableGrids(BlockPos pos){
-        List<Grid<C, D>> joinableGrids = new ArrayList<>();
+    private List<Grid<C, D>> getJoignableGrids(BlockPos pos){
+        List<Grid<C, D>> joignableGrids = new ArrayList<>();
 
         for (Grid<C, D> grid : getGridList()) {
-            if(grid.canJoin(pos)) joinableGrids.add(grid);
+            if(grid.canJoin(pos)) joignableGrids.add(grid);
         }
 
-        return joinableGrids;
+        return joignableGrids;
     }
 
     public List<Grid<C, D>> getGridList() {

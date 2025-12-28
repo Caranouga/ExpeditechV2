@@ -22,6 +22,10 @@ public abstract class DuctTE<C, D extends DuctTE<C, D>> extends TileEntity {
         this.capWrapper = capWrapper;
     }
 
+    /**
+     * Set the grid this duct is part of
+     * @param grid The grid
+     */
     public void setGrid(Grid<C, D> grid){
         this.grid = grid;
     }
@@ -36,6 +40,12 @@ public abstract class DuctTE<C, D extends DuctTE<C, D>> extends TileEntity {
         super.setRemoved();
     }
 
+    /**
+     * This function should be called when a block next to the duct changed
+     * @param neighbor The neighbor tile entity's
+     * @param neighborPos The neighbor's pos
+     * @param side The side that connect this duct and the neighbor
+     */
     public void neighborChanged(@Nullable TileEntity neighbor, @Nonnull BlockPos neighborPos, @Nullable Direction side) {
         if(grid == null) return;
 
@@ -56,8 +66,11 @@ public abstract class DuctTE<C, D extends DuctTE<C, D>> extends TileEntity {
         return getBlockState().getValue(Duct.TIER).getAmount();
     }
 
+    /**
+     * Get the capability that this duct can support
+     * @return The capability
+     */
     protected abstract Capability<C> getAssociatedCapability();
     public abstract void onPlaced();
     public abstract void onRemoved();
-    // public abstract int getMaxTransferPerTick();
 }
