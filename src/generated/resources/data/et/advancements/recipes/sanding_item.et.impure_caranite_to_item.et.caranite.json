@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "et:sanding_item.et.impure_caranite_to_item.et.caranite"
+    ]
+  },
+  "criteria": {
+    "has_item.et.impure_caranite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "et:impure_caranite"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "et:sanding_item.et.impure_caranite_to_item.et.caranite"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_item.et.impure_caranite",
+      "has_the_recipe"
+    ]
+  ]
+}

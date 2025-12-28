@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "et:item.et.caranite_from_block.et.caranite_block"
+    ]
+  },
+  "criteria": {
+    "has_block.et.caranite_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "et:caranite_block"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "et:item.et.caranite_from_block.et.caranite_block"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_block.et.caranite_block",
+      "has_the_recipe"
+    ]
+  ]
+}

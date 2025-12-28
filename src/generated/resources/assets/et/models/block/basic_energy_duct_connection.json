@@ -1,0 +1,7 @@
+{
+  "parent": "et:block/duct_connection",
+  "textures": {
+    "0": "et:block/ducts/energy/basic/basic_energy_duct_connection",
+    "particle": "et:block/ducts/energy/basic/basic_energy_duct_connection"
+  }
+}

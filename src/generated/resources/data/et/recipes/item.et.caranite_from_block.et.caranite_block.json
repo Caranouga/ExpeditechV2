@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "et:caranite_block"
+    }
+  ],
+  "result": {
+    "item": "et:caranite",
+    "count": 9
+  }
+}
