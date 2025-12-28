@@ -28,6 +28,9 @@ public abstract class Grid<C, D extends DuctTE<C, D>> {
     private final Class<D> ductClass;
     private final GridCapabilityWrapper<C> capWrapper;
 
+    private final Set<C> gen = new HashSet<>();
+    private final Set<C> cons = new HashSet<>();
+
     // TODO: cache
     // TODO: Randomiser les pair gen/cons
 
@@ -72,6 +75,8 @@ public abstract class Grid<C, D extends DuctTE<C, D>> {
             C genCap = genTe.getCapability(getCapability()).orElse(null);
             if(genCap == null) continue;
 
+            gen.add(genCap);
+
             int availableEnergy = capWrapper.extract(genCap, Integer.MAX_VALUE, true);
             if(availableEnergy == 0) continue;
 
@@ -80,6 +85,8 @@ public abstract class Grid<C, D extends DuctTE<C, D>> {
                 TileEntity consTe = consEntry.getValue();
                 C consCap = consTe.getCapability(getCapability()).orElse(null);
                 if(consCap == null) continue;
+
+                cons.add(consCap);
 
                 int requiredEnergy = capWrapper.receive(consCap, Integer.MAX_VALUE, true);
                 if(requiredEnergy == 0) continue;
@@ -128,6 +135,7 @@ public abstract class Grid<C, D extends DuctTE<C, D>> {
 
         return false;
     }
+
 
     @SuppressWarnings("unchecked")
     public Grid<C, D> addDuct(BlockPos pos){

@@ -10,6 +10,7 @@ import fr.caranouga.expeditech.datagen.providers.recipes.ModRecipeProvider;
 import fr.caranouga.expeditech.datagen.providers.tags.ModBlockTagProvider;
 import fr.caranouga.expeditech.datagen.providers.tags.ModItemTagProvider;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

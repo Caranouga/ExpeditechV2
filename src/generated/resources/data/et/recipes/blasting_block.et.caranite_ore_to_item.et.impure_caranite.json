@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "et:caranite_ore"
-  },
-  "result": "et:impure_caranite",
-  "experience": 0.9,
-  "cookingtime": 150
-}

@@ -1,6 +1,0 @@
-{
-  "parent": "et:block/duct_connection",
-  "textures": {
-    "0": "et:block/ducts/energy/advanced/advanced_energy_duct_connection"
-  }
-}

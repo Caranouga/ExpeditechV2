@@ -21,6 +21,8 @@ public class Expeditech
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MODID = "et";
 
+    // TODO: Patch particle ducts
+
     public Expeditech() {
         IEventBus modEBus = FMLJavaModLoadingContext.get().getModEventBus();
 

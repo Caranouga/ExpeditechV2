@@ -1,6 +1,0 @@
-{
-  "parent": "et:block/duct_core",
-  "textures": {
-    "0": "et:block/ducts/energy/basic/basic_energy_duct_core"
-  }
-}

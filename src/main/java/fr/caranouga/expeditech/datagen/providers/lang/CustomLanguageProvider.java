@@ -4,14 +4,16 @@ import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.caranouga.expeditech.Expeditech;
-import fr.caranouga.expeditech.common.blocks.ModBlocks;
-import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.blocks.custom.duct.Duct;
+import fr.caranouga.expeditech.common.blocks.custom.duct.DuctTier;
+import fr.caranouga.expeditech.common.utils.Locale;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.util.Tuple;
 import net.minecraftforge.fml.RegistryObject;
 import org.apache.commons.lang3.text.translate.JavaUnicodeEscaper;
 
@@ -20,23 +22,18 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class CustomLanguageProvider implements IDataProvider {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     // <lang, <key, value>>
-    private final Map<String, Map<String, String>> data = new HashMap<>();
+    private final Map<Locale, Map<String, String>> data = new HashMap<>();
     private final DataGenerator generator;
-    private final String[] locales;
-    private int currentLocaleIdx = 0;
+    private Locale currentLocale;
 
-    public CustomLanguageProvider(DataGenerator generator, String... locales) {
+    public CustomLanguageProvider(DataGenerator generator) {
         this.generator = generator;
-        this.locales = locales;
     }
 
     /**
@@ -58,9 +55,9 @@ public abstract class CustomLanguageProvider implements IDataProvider {
         verifyIfAllContentIsSet();
         checkDiff();
 
-        for (String locale : locales) {
+        for (Locale locale : Locale.values()) {
             save(pCache, data.get(locale), this.generator.getOutputFolder()
-                    .resolve("assets/" + Expeditech.MODID + "/lang/" + locale + ".json"));
+                    .resolve("assets/" + Expeditech.MODID + "/lang/" + locale.getName() + ".json"));
         }
     }
 
@@ -75,8 +72,8 @@ public abstract class CustomLanguageProvider implements IDataProvider {
      * @since 1.0.0
      */
     private void verifyIfAllLocalesAreSet(){
-        for (String locale : locales) {
-            if(!data.containsKey(locale)) throw new IllegalStateException("Locale " + locale + " is not set in the language provider");
+        for (Locale locale : Locale.values()) {
+            if(!data.containsKey(locale)) throw new IllegalStateException("Locale " + locale.getName() + " is not set in the language provider");
         }
     }
 
@@ -87,7 +84,8 @@ public abstract class CustomLanguageProvider implements IDataProvider {
      */
     private void verifyIfAllContentIsSet(){
         // Items
-        ModItems.ITEMS.getEntries().forEach(item -> {
+        // TODO: PATCH
+        /*ModItems.ITEMS.getEntries().forEach(item -> {
             String unlocalizedName = item.get().getDescriptionId();
             if(!data.get(locales[0]).containsKey(unlocalizedName)){
                 Expeditech.LOGGER.warn("Item {} does not have a translation, did you forgot to add one ?", unlocalizedName);
@@ -99,7 +97,7 @@ public abstract class CustomLanguageProvider implements IDataProvider {
             if(!data.get(locales[0]).containsKey(unlocalizedName)){
                 Expeditech.LOGGER.warn("Block {} does not have a translation, did you forgot to add one ?", unlocalizedName);
             }
-        });
+        });*/
     }
 
     /**
@@ -107,9 +105,9 @@ public abstract class CustomLanguageProvider implements IDataProvider {
      * @since 1.0.0
      */
     private void checkDiff(){
-        ArrayList<String> keys = new ArrayList<>(data.get(locales[0]).keySet());
+        ArrayList<String> keys = new ArrayList<>(data.get(Locale.EN_US).keySet());
 
-        for(String locale : locales) {
+        for(Locale locale : Locale.values()) {
             Map<String, String> localeData = data.get(locale);
 
             if(localeData.isEmpty()){
@@ -157,12 +155,8 @@ public abstract class CustomLanguageProvider implements IDataProvider {
      * This function should be used to change the locale the translations will be written into
      * @since 1.0.0
      */
-    protected void switchLocale(){
-        this.currentLocaleIdx++;
-        if(this.currentLocaleIdx >= this.locales.length){
-            this.currentLocaleIdx = 0;
-            Expeditech.LOGGER.warn("No more locales available, switching back to default locale");
-        }
+    protected void selectLocale(Locale locale){
+        this.currentLocale = locale;
     }
 
     // region Register function
@@ -174,6 +168,15 @@ public abstract class CustomLanguageProvider implements IDataProvider {
         add(block.get().getDescriptionId(), translation);
     }
 
+    protected void addDuct(RegistryObject<? extends Duct<?>> duct, String baseTranslation, Map<DuctTier, String> trans){
+        for (DuctTier tier : DuctTier.values()) {
+            add(
+                    duct.get().getDescriptionId() + "." + tier.getName(),
+                    baseTranslation.replace("%s", trans.get(tier))
+            );
+        }
+    }
+
     protected void addItemGroup(ItemGroup group, String translation){
         add(group.getDisplayName().getString(), translation);
     }
@@ -183,7 +186,6 @@ public abstract class CustomLanguageProvider implements IDataProvider {
     }
 
     private void add(String key, String value){
-        String currentLocale = this.locales[this.currentLocaleIdx];
         this.data.computeIfAbsent(currentLocale, k -> new HashMap<>());
         if(this.data.get(currentLocale).put(key, value) != null){
             throw new IllegalStateException("Duplicate translation key " + key);

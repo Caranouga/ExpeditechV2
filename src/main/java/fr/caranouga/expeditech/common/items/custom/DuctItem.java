@@ -39,8 +39,6 @@ public class DuctItem extends BlockItem {
         if(ctx.getLevel().isClientSide()) return super.placeBlock(ctx, state);
 
         DuctTier tier = getTier(ctx.getItemInHand());
-        Expeditech.LOGGER.debug(tier);
-        Expeditech.LOGGER.debug(state.setValue(Duct.TIER, tier));
         return super.placeBlock(
                 ctx,
                 state.setValue(Duct.TIER, tier)

@@ -15,10 +15,13 @@ import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Expeditech.MODID);
+    public static final Map<RegistryObject<? extends Block>, BlockEntry> BLOCKS_DATA = new HashMap<>();
 
     // region Registry
     // Storage blocks
@@ -40,43 +43,30 @@ public class ModBlocks {
     // endregion
 
     // region Utils
-    /**
-     * This function register a new standard block with the given properties.
-     * It also registers the block item
-     * @param id The id of the block to be registered (modid:id)
-     * @param properties The block's properties
-     * @return The {@link RegistryObject} containing the block
-     * @since 1.0.0
-     */
     private static RegistryObject<Block> block(String id, AbstractBlock.Properties properties){
         return block(id, () -> new Block(properties));
     }
 
     private static <B extends Block> RegistryObject<B> block(String id, Supplier<B> supplier){
-        RegistryObject<B> blockObj = blockWithoutItem(id, supplier);
+        RegistryObject<B> blockObj = blockWithoutItem(id, supplier, new BlockEntry(BlockEntry.Model.BLOCK));
         ModItems.blockItem(id, blockObj);
 
         return blockObj;
     }
 
-    private static <B extends Block> RegistryObject<B> blockWithoutItem(String id, Supplier<B> supplier){
-        return BLOCKS.register(id, supplier);
+    private static <B extends Block> RegistryObject<B> blockWithoutItem(String id, Supplier<B> supplier, BlockEntry data){
+        RegistryObject<B> entry = BLOCKS.register(id, supplier);
+        BLOCKS_DATA.put(entry, data);
+
+        return entry;
     }
 
-    /**
-     * This function register a new ore block with the given properties.
-     * It also registers the block item
-     * @param id The id of the block to be registered (modid:id)
-     * @param properties The block's properties
-     * @return The {@link RegistryObject} containing the {@link OreBlock}
-     * @since 1.0.0
-     */
     private static RegistryObject<OreBlock> ore(String id, AbstractBlock.Properties properties){
         return block(id, () -> new OreBlock(properties));
     }
 
     private static <D extends Duct<?>> RegistryObject<D> duct(String id, Supplier<D> supplier){
-        return blockWithoutItem(id + "_duct", supplier);
+        return blockWithoutItem(id + "_duct", supplier, new BlockEntry(BlockEntry.Model.DUCT));
     }
     // endregion
 

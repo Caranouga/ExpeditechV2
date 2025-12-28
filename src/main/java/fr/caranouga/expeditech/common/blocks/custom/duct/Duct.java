@@ -32,6 +32,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -110,6 +112,15 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
     public void onPlace(@Nonnull BlockState pState, @Nonnull World pLevel, @Nonnull BlockPos pPos, @Nonnull BlockState pOldState, boolean pIsMoving) {
         super.onPlace(pState, pLevel, pPos, pOldState, pIsMoving);
 
+        if(pState.getBlock().equals(pOldState.getBlock())) return;
+
+        if(!pLevel.isClientSide()){
+            BlockState newState = getState(pLevel, pPos);
+            if(newState != pState){
+                pLevel.setBlock(pPos, newState, Constants.BlockFlags.NOTIFY_NEIGHBORS + Constants.BlockFlags.BLOCK_UPDATE);
+            }
+        }
+
         DuctTE<?, D> te = getTileEntity(pLevel, pPos);
         if(te == null) return;
 
@@ -119,7 +130,7 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
     @Override
     public void onNeighborChange(BlockState state, IWorldReader world, BlockPos pos, BlockPos neighbor) {
         super.onNeighborChange(state, world, pos, neighbor);
-
+        // TODO: Check pk a chaque machine placé ya une nouvelle grid de créé
         DuctTE<?, D> te = getTileEntity(world, pos);
         if(te == null) return;
 
@@ -147,12 +158,10 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
     }
 
     private BlockState getState(World world, BlockPos pos) {
-        if(world.isClientSide()) return defaultBlockState();
-
         FluidState fluidState = world.getFluidState(pos);
         BlockState current = world.getBlockState(pos);
         
-        if(current.is(Blocks.AIR)) return defaultBlockState();
+        if(!current.is(this)) return defaultBlockState();
 
         return defaultBlockState()
                 .setValue(TIER, current.getValue(TIER))
@@ -170,6 +179,8 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
 
         // TODO: Check que c'est le même type de duct
         TileEntity te = world.getBlockEntity(newPos);
+        if(te == null) return false;
+        if(te.getCapability(getCapability(), facing).isPresent()) return true;
         if(!(te instanceof DuctTE)) return false;
         ResourceLocation registryName = te.getBlockState().getBlock().getRegistryName();
         if(registryName == null) return false;
@@ -246,6 +257,7 @@ public abstract class Duct<D extends DuctTE<?, D>> extends Block implements IWat
     }
 
     protected abstract TileEntityType<? extends DuctTE<?, D>> getTileEntityType();
+    protected abstract Capability<?> getCapability();
 
     public String getType() {
         return type;

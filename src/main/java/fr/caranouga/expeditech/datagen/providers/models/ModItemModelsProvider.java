@@ -1,9 +1,12 @@
 package fr.caranouga.expeditech.datagen.providers.models;
 
 import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.common.blocks.BlockEntry;
+import fr.caranouga.expeditech.common.blocks.ModBlocks;
 import fr.caranouga.expeditech.common.blocks.custom.duct.Duct;
 import fr.caranouga.expeditech.common.blocks.custom.duct.DuctTier;
 import fr.caranouga.expeditech.common.items.ModItems;
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -12,6 +15,9 @@ import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.fml.RegistryObject;
+
+import java.util.Map;
 
 import static fr.caranouga.expeditech.common.utils.StringUtils.modLocation;
 
@@ -30,10 +36,16 @@ public class ModItemModelsProvider extends ItemModelProvider {
             String name = registryName.getPath();
 
             if(item instanceof BlockItem){
-                if(((BlockItem) item).getBlock() instanceof Duct) {
-                    generateDuctItem((Duct<?>) ((BlockItem) item).getBlock());
-                    return;
+                Map.Entry<RegistryObject<? extends Block>, BlockEntry> blockEntryEntry = ModBlocks.BLOCKS_DATA.entrySet().stream()
+                        .filter((blockEntry) -> blockEntry.getKey().get() == ((BlockItem) item).getBlock())
+                        .findFirst().orElse(null);
+                if(blockEntryEntry != null) {
+                    if (blockEntryEntry.getValue().getModel() == BlockEntry.Model.DUCT) {
+                        generateDuctItem((Duct<?>) ((BlockItem) item).getBlock());
+                        return;
+                    }
                 }
+
                 withExistingParent(name, modLoc("block/" + name));
                 return;
             }

@@ -29,10 +29,4 @@ public class EnergyDuctTE extends DuctTE<IEnergyStorage, EnergyDuctTE> {
     public void onRemoved() {
         EnergyGridSavedData.get((ServerWorld) level).unregisterDuct(this);
     }
-
-    @Override
-    public int getMaxTransferPerTick() {
-        // TODO: Add tier
-        return 10;
-    }
 }

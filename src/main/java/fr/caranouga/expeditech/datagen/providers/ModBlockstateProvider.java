@@ -1,10 +1,10 @@
 package fr.caranouga.expeditech.datagen.providers;
 
 import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.common.blocks.BlockEntry;
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
 import fr.caranouga.expeditech.common.blocks.custom.duct.Duct;
 import fr.caranouga.expeditech.common.blocks.custom.duct.DuctTier;
-import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -22,8 +22,20 @@ public class ModBlockstateProvider extends BlockStateProvider {
     @Override
     protected void registerStatesAndModels() {
         ModBlocks.BLOCKS.getEntries().forEach(entry -> {
-            if(entry.get() instanceof Duct) registerDuctBlock((Duct<?>) entry.get());
-            else simpleBlock(entry.get());
+            BlockEntry.Model blockModel = ModBlocks.BLOCKS_DATA.get(entry).getModel();
+
+            switch (blockModel){
+                case DUCT: {
+                    registerDuctBlock((Duct<?>) entry.get());
+                    break;
+                }
+
+                case BLOCK:
+                default: {
+                    simpleBlock(entry.get());
+                    break;
+                }
+            }
         });
     }
 
