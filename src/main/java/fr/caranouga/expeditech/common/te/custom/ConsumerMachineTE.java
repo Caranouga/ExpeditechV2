@@ -1,6 +1,6 @@
 package fr.caranouga.expeditech.common.te.custom;
 
-import fr.caranouga.expeditech.common.capabilities.CustomEnergyStorage;
+import fr.caranouga.expeditech.common.capabilities.energy.CustomEnergyStorage;
 import fr.caranouga.expeditech.common.te.ModTileEntities;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
