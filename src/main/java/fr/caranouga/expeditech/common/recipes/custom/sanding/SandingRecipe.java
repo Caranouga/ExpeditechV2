@@ -10,6 +10,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.JSONUtils;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -30,6 +31,12 @@ public class SandingRecipe implements ISandingRecipe {
         this.ingredient = ingredient;
         this.energyNeeded = energyNeeded;
         this.duration = duration;
+    }
+
+    @Override
+    @Nonnull
+    public NonNullList<Ingredient> getIngredients() {
+        return NonNullList.of(Ingredient.EMPTY, ingredient);
     }
 
     @Override
