@@ -1,0 +1,38 @@
+1. load/save
+   |-- trigger au "setChanged()"
+   |-- Disk persistence (world saving)
+   |-- If the data must survive a server restart, it goes here.
+
+2. getUpdateTag/handleUpdateTag
+   |-- trigger quand un chunck (un)load
+   |-- Initial chunk sync (server → client)
+   |-- This is for "what the client should know when the chunk appears."
+
+3. getUpdatePacket/onDataPacket
+   |-- trigger au "world.sendBlockUpdated(pos, state, state, flags)"
+   |-- Used for real-time synchronization
+   |-- This is for "something changed; tell the client now."
+
+Timeline:
+WORLD SAVE -> save()
+WORLD LOAD -> load()
+
+CHUNK SENT TO CLIENT -> getUpdateTag() (server side) -> handleUpdateTag() (client side)
+
+RUNTIME CHANGE -> getUpdatePacket() (server side) -> onDataPacket() (client side)
+
+
+
+| Method                       | Purpose          | Frequency  | Data size |
+| ---------------------------- | ---------------- | ---------- | --------- |
+| save/load                    | Disk persistence | Rare       | Full      |
+| getUpdateTag/handleUpdateTag | Initial sync     | Chunk load | Medium    |
+| getUpdatePacket/onDataPacket | Live updates     | Often      | Minimal   |
+
+
+
+
+Pour chaque variable se demander:
+| Field | Purpose | Needs disk save? | Needs client sync? |
+| ----- | ------- | ---------------- | ------------------ |
+| ...   | ...     | ❌/✔️            | ❌ /✔️            |
