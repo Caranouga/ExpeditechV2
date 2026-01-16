@@ -4,7 +4,7 @@
    |-- If the data must survive a server restart, it goes here.
 
 2. getUpdateTag/handleUpdateTag
-   |-- trigger quand un chunck (un)load
+   |-- trigger quand un chunk (un)load
    |-- Initial chunk sync (server → client)
    |-- This is for "what the client should know when the chunk appears."
 
