@@ -2,9 +2,14 @@ package fr.caranouga.expeditech.common.tileentities.custom.multiblock;
 
 import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.blocks.custom.multiblock.AbstractMultiBlockMaster;
+import fr.caranouga.expeditech.common.grids.grid.Grid;
 import fr.caranouga.expeditech.common.multiblocks.MultiBlockShape;
 import fr.caranouga.expeditech.common.packets.MultiblockErrorPacket;
 import net.minecraft.block.BlockState;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTUtil;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -203,5 +208,36 @@ public abstract class AbstractMultiBlockMasterTile extends TileEntity implements
     protected abstract void unformedTick();
 
     // region Data Saving (World load/save)
+    @Override
+    public void load(BlockState state, CompoundNBT compound) {
+        super.load(state, compound);
+
+        if(compound.contains("savedPos")) {
+            ListNBT list = compound.getList("savedPos", 10);
+
+            for(INBT base : list){
+                savedPos.add(NBTUtil.readBlockPos((CompoundNBT) base));
+            }
+        }
+        if(compound.contains("isFormed")) {
+            isFormed = compound.getBoolean("isFormed");
+        }
+    }
+
+    @Override
+    public CompoundNBT save(CompoundNBT pCompound) {
+        CompoundNBT nbt = super.save(pCompound);
+
+        ListNBT list = new ListNBT();
+
+        savedPos.forEach((pos) -> {
+            list.add(NBTUtil.writeBlockPos(pos));
+        });
+
+        nbt.put("savedPos", list);
+        nbt.putBoolean("isFormed", isFormed);
+
+        return nbt;
+    }
     // endregion
 }

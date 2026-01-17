@@ -1,5 +1,6 @@
 package fr.caranouga.expeditech.common.tileentities.custom.multiblock;
 
+import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.blocks.custom.multiblock.AbstractMultiBlockSlave;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
@@ -24,7 +25,7 @@ public abstract class AbstractMultiBlockSlaveTile extends TileEntity {
         if (tile instanceof AbstractMultiBlockMasterTile) {
             this.masterTile = (AbstractMultiBlockMasterTile) tile;
         } else {
-            throw new IllegalArgumentException("The provided master position does not contain a MasterMbTile.");
+            throw new IllegalArgumentException("The provided master position does not contain a multiBlock master.");
         }
 
         BlockState state = getBlockState();
@@ -57,8 +58,6 @@ public abstract class AbstractMultiBlockSlaveTile extends TileEntity {
         super.setRemoved();
     }
 
-    // region Data Saving (World load/save)
-    // 2 fois: server puis client
     @Override
     public void onLoad() {
         super.onLoad();
@@ -73,32 +72,26 @@ public abstract class AbstractMultiBlockSlaveTile extends TileEntity {
     }
 
     @Override
-    public void load(BlockState state, CompoundNBT nbt) {
-        super.load(state, nbt);
+    public void load(BlockState state, CompoundNBT compound) {
+        super.load(state, compound);
 
-        readTagServer(nbt);
+        Expeditech.LOGGER.debug("Loading (lvl null?: {}, clientside?: {}) {}", this.level == null, this.level != null && this.level.isClientSide, compound);
+
+        if(compound.contains("masterPos")) {
+            pendingMasterPos = NBTUtil.readBlockPos(compound.getCompound("masterPos"));
+        }
     }
 
     @Override
     public CompoundNBT save(CompoundNBT pCompound) {
-        CompoundNBT tag = createTagServer(super.save(pCompound));
-        return tag;
+        CompoundNBT nbt = super.save(pCompound);
+
+        if(masterTile != null) nbt.put("masterPos", NBTUtil.writeBlockPos(masterTile.getBlockPos()));
+
+        Expeditech.LOGGER.debug("Saving (lvl null?: {}, clientside?: {}) {}", this.level == null, this.level != null && this.level.isClientSide, nbt);
+
+        return nbt;
     }
-
-    private CompoundNBT createTagServer(CompoundNBT tag){
-        if(masterTile != null) tag.put("masterPos", NBTUtil.writeBlockPos(masterTile.getBlockPos()));
-
-        return tag;
-    }
-
-    private void readTagServer(CompoundNBT tag){
-        if (tag.contains("masterPos")) {
-            pendingMasterPos = NBTUtil.readBlockPos(tag.getCompound("masterPos"));
-        }
-    }
-    // endregion
-
-
 
     /*private AbstractMultiBlockMasterTile masterTile;
     private BlockState originalBlock;
