@@ -1,6 +1,6 @@
 package fr.caranouga.expeditech.common.grids;
 
-import fr.caranouga.expeditech.common.te.custom.duct.DuctTE;
+import fr.caranouga.expeditech.common.tileentities.custom.duct.DuctTE;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;

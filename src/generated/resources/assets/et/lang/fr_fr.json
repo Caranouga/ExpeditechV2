@@ -1,13 +1,23 @@
 {
-  "block.et.caranite_ore": "Minerai de caranite",
   "block.et.energy_duct.advanced": "Conduit d'\u00E9nergie avanc\u00E9",
+  "commands.et.techlevel.set.levels.success.multiple": "Le nombre de niveaux d'exp\u00E9rience technologique a \u00E9t\u00E9 d\u00E9fini \u00E0 %s pour %s joueurs",
   "block.et.caranite_block": "Bloc de caranite",
-  "book.et.engineering_manual.name": "Le grand manuel d'ing\u00E9nierie",
+  "commands.et.techlevel.set.xp.success.multiple": "Le nombre de points d'exp\u00E9rience technologique a \u00E9t\u00E9 d\u00E9fini \u00E0 %s pour %s joueurs",
   "itemGroup.expeditech": "Expeditech",
-  "item.et.caranite": "Caranite",
-  "book.et.engineering_manual.description": "$(l)Bienvenue dans $()$(thing)Le Grand Manuel D'ing\u00E9nierie$()$(br2)Ce manuel rassemble tout ce qu'il faut pour comprendre vos nouvelles machines, minerais, structures et cr\u00E9atures.$(br)Prenez une grande inspiration, ajustez votre casque...$(br)L'aventure commence !",
+  "commands.et.techlevel.set.xp.success.single": "Le nombre de points d'exp\u00E9rience technologique a \u00E9t\u00E9 d\u00E9fini \u00E0 %s pour %s",
+  "commands.et.techlevel.get.levels.success": "%s a %s niveau(x) d'exp\u00E9rience technologique",
   "item.et.sanding_paper": "Papier abrasif",
   "block.et.energy_duct.basic": "Conduit d'\u00E9nergie basique",
   "item.et.impure_caranite": "Caranite impure",
-  "book.et.engineering_manual.subtitle": "Un guide s\u00E9rieux pour survivre \u00E0 vos propres inventions - avec un minimum d\u2019explosions."
+  "book.et.engineering_manual.subtitle": "Un guide s\u00E9rieux pour survivre \u00E0 vos propres inventions - avec un minimum d\u2019explosions.",
+  "commands.et.techlevel.get.xp.success": "%s a %s point(s) d'exp\u00E9rience technologique",
+  "block.et.caranite_ore": "Minerai de caranite",
+  "book.et.engineering_manual.name": "Le grand manuel d'ing\u00E9nierie",
+  "commands.et.techlevel.add.xp.success.multiple": "Don de %s point(s) d'exp\u00E9rience technologique \u00E0 %s joueurs",
+  "commands.et.techlevel.add.levels.success.multiple": "Don de %s niveau(x) d'exp\u00E9rience technologique \u00E0 %s joueurs",
+  "item.et.caranite": "Caranite",
+  "commands.et.techlevel.add.xp.success.single": "Don de %s point(s) d'exp\u00E9rience technologique \u00E0 %s",
+  "commands.et.techlevel.add.levels.success.single": "Don de %s niveau(x) d'exp\u00E9rience technologique \u00E0 %s",
+  "commands.et.techlevel.set.levels.success.single": "Le nombre de niveaux d'exp\u00E9rience technologique a \u00E9t\u00E9 d\u00E9fini \u00E0 %s pour %s",
+  "book.et.engineering_manual.description": "$(l)Bienvenue dans $()$(thing)Le Grand Manuel D'ing\u00E9nierie$()$(br2)Ce manuel rassemble tout ce qu'il faut pour comprendre vos nouvelles machines, minerais, structures et cr\u00E9atures.$(br)Prenez une grande inspiration, ajustez votre casque...$(br)L'aventure commence !"
 }

@@ -1,0 +1,31 @@
+{
+  "parent": "et:root",
+  "display": {
+    "icon": {
+      "item": "et:caranite"
+    },
+    "title": {
+      "translate": "advancements.expeditech.main.first_tech_xp.title"
+    },
+    "description": {
+      "translate": "advancements.expeditech.main.first_tech_xp.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "0": {
+      "trigger": "et:tech_level_trigger",
+      "conditions": {
+        "required_tech_xp": 1
+      }
+    }
+  },
+  "requirements": [
+    [
+      "0"
+    ]
+  ]
+}

@@ -1,13 +1,23 @@
 {
-  "block.et.caranite_ore": "Caranite Ore",
   "block.et.energy_duct.advanced": "Advanced Energy Duct",
+  "commands.et.techlevel.set.levels.success.multiple": "Set %s tech experience levels on %s players",
   "block.et.caranite_block": "Block of Caranite",
-  "book.et.engineering_manual.name": "The Great Engineering Manual",
+  "commands.et.techlevel.set.xp.success.multiple": "Set %s tech experience points on %s players",
   "itemGroup.expeditech": "Expeditech",
-  "item.et.caranite": "Caranite",
-  "book.et.engineering_manual.description": "$(l)Welcome to $()$(thing)The Great Engineering Manual$()$(br2)This manual brings together everything you need to understand your new machines, ores, structures, and creatures.$(br)Take a deep breath, adjust your helmet...$(br)The adventure begins !",
+  "commands.et.techlevel.set.xp.success.single": "Set %s tech experience points on %s",
+  "commands.et.techlevel.get.levels.success": "%s has %s tech experience levels",
   "item.et.sanding_paper": "Sanding Paper",
   "block.et.energy_duct.basic": "Basic Energy Duct",
   "item.et.impure_caranite": "Impure Caranite",
-  "book.et.engineering_manual.subtitle": "A serious guide to surviving your own inventions - with minimal explosions."
+  "book.et.engineering_manual.subtitle": "A serious guide to surviving your own inventions - with minimal explosions.",
+  "commands.et.techlevel.get.xp.success": "%s has %s tech experience points",
+  "block.et.caranite_ore": "Caranite Ore",
+  "book.et.engineering_manual.name": "The Great Engineering Manual",
+  "commands.et.techlevel.add.xp.success.multiple": "Gave %s tech experience points to %s players",
+  "commands.et.techlevel.add.levels.success.multiple": "Gave %s tech experience levels to %s players",
+  "item.et.caranite": "Caranite",
+  "commands.et.techlevel.add.xp.success.single": "Gave %s tech experience points to %s",
+  "commands.et.techlevel.add.levels.success.single": "Gave %s tech experience levels to %s",
+  "commands.et.techlevel.set.levels.success.single": "Set %s tech experience levels on %s",
+  "book.et.engineering_manual.description": "$(l)Welcome to $()$(thing)The Great Engineering Manual$()$(br2)This manual brings together everything you need to understand your new machines, ores, structures, and creatures.$(br)Take a deep breath, adjust your helmet...$(br)The adventure begins !"
 }

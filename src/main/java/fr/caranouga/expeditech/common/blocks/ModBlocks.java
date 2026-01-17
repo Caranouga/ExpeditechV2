@@ -4,11 +4,19 @@ import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.blocks.custom.*;
 import fr.caranouga.expeditech.common.blocks.custom.duct.Duct;
 import fr.caranouga.expeditech.common.blocks.custom.duct.EnergyDuct;
-import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.blocks.custom.machine.CoalGeneratorMachine;
+import fr.caranouga.expeditech.common.blocks.custom.multiblock.AbstractMultiBlockMaster;
+import fr.caranouga.expeditech.common.blocks.custom.multiblock.TestMBMaster;
+import fr.caranouga.expeditech.common.blocks.custom.multiblock.TestMBSlave;
+import fr.caranouga.expeditech.common.items.custom.ModItems;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityType;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
@@ -35,11 +43,15 @@ public class ModBlocks {
                     .harvestTool(ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops());
 
     // Machines
-    public static final RegistryObject<GeneratorMachine> GENERATOR = block("generator", GeneratorMachine::new);
+    public static final RegistryObject<CoalGeneratorMachine> COAL_GENERATOR = block("coal_generator", CoalGeneratorMachine::new);
     public static final RegistryObject<ConsumerMachine> CONSUMER = block("consumer", ConsumerMachine::new);
 
     // Ducts
     public static final RegistryObject<EnergyDuct> ENERGY_DUCT = duct("energy", EnergyDuct::new);
+
+    // MultiBlocks
+    public static final RegistryObject<TestMBMaster> TEST_MB_MASTER = multiBlockMaster("test_mb_master", TestMBMaster::new);
+    public static final RegistryObject<TestMBSlave> TEST_SLAVE_MB = block("test_mb_slave", TestMBSlave::new);
     // endregion
 
     // region Utils
@@ -67,6 +79,14 @@ public class ModBlocks {
 
     private static <D extends Duct<?>> RegistryObject<D> duct(String id, Supplier<D> supplier){
         return blockWithoutItem(id + "_duct", supplier, new BlockEntry(BlockEntry.Model.DUCT));
+    }
+
+    private static <M extends AbstractMultiBlockMaster> RegistryObject<M> multiBlockMaster(String id, Supplier<M> supplier){
+        return block(id, supplier);
+    }
+
+    public static boolean never(BlockState state, IBlockReader world, BlockPos pos, EntityType<?> entType) {
+        return false;
     }
     // endregion
 

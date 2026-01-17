@@ -2,7 +2,7 @@ package fr.caranouga.expeditech.datagen.providers.lang;
 
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
 import fr.caranouga.expeditech.common.blocks.custom.duct.DuctTier;
-import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.items.custom.ModItems;
 import fr.caranouga.expeditech.common.tab.ModTabs;
 import fr.caranouga.expeditech.common.utils.Locale;
 import net.minecraft.data.DataGenerator;
@@ -44,6 +44,17 @@ public class ModLanguageProvider extends CustomLanguageProvider {
 
         addItemGroup(ModTabs.EXPEDITECH, "Expeditech");
 
+        addCommand("techlevel", "add.xp.success.single", "Gave %s tech experience points to %s");
+        addCommand("techlevel", "add.levels.success.single", "Gave %s tech experience levels to %s");
+        addCommand("techlevel", "add.xp.success.multiple", "Gave %s tech experience points to %s players");
+        addCommand("techlevel", "add.levels.success.multiple", "Gave %s tech experience levels to %s players");
+        addCommand("techlevel", "set.xp.success.single", "Set %s tech experience points on %s");
+        addCommand("techlevel", "set.levels.success.single", "Set %s tech experience levels on %s");
+        addCommand("techlevel", "set.xp.success.multiple", "Set %s tech experience points on %s players");
+        addCommand("techlevel", "set.levels.success.multiple", "Set %s tech experience levels on %s players");
+        addCommand("techlevel", "get.xp.success", "%s has %s tech experience points");
+        addCommand("techlevel", "get.levels.success", "%s has %s tech experience levels");
+
         add("book.et.engineering_manual.name", "The Great Engineering Manual");
         add("book.et.engineering_manual.subtitle", "A serious guide to surviving your own inventions - with minimal explosions.");
         add("book.et.engineering_manual.description", "$(l)Welcome to $()$(thing)The Great Engineering Manual$()$(br2)This manual brings together everything you need to understand your new machines, ores, structures, and creatures.$(br)Take a deep breath, adjust your helmet...$(br)The adventure begins !");
@@ -67,6 +78,17 @@ public class ModLanguageProvider extends CustomLanguageProvider {
         addDuct(ModBlocks.ENERGY_DUCT, "Conduit d'énergie %s", trans);
 
         addItemGroup(ModTabs.EXPEDITECH, "Expeditech");
+
+        addCommand("techlevel", "add.xp.success.single", "Don de %s point(s) d'expérience technologique à %s");
+        addCommand("techlevel", "add.levels.success.single", "Don de %s niveau(x) d'expérience technologique à %s");
+        addCommand("techlevel", "add.xp.success.multiple", "Don de %s point(s) d'expérience technologique à %s joueurs");
+        addCommand("techlevel", "add.levels.success.multiple", "Don de %s niveau(x) d'expérience technologique à %s joueurs");
+        addCommand("techlevel", "set.xp.success.single", "Le nombre de points d'expérience technologique a été défini à %s pour %s");
+        addCommand("techlevel", "set.levels.success.single", "Le nombre de niveaux d'expérience technologique a été défini à %s pour %s");
+        addCommand("techlevel", "set.xp.success.multiple", "Le nombre de points d'expérience technologique a été défini à %s pour %s joueurs");
+        addCommand("techlevel", "set.levels.success.multiple", "Le nombre de niveaux d'expérience technologique a été défini à %s pour %s joueurs");
+        addCommand("techlevel", "get.xp.success", "%s a %s point(s) d'expérience technologique");
+        addCommand("techlevel", "get.levels.success", "%s a %s niveau(x) d'expérience technologique");
 
         add("book.et.engineering_manual.name", "Le grand manuel d'ingénierie");
         add("book.et.engineering_manual.subtitle", "Un guide sérieux pour survivre à vos propres inventions - avec un minimum d’explosions.");

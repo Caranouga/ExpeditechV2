@@ -1,7 +1,7 @@
 package fr.caranouga.expeditech.common.blocks.custom.duct;
 
-import fr.caranouga.expeditech.common.te.ModTileEntities;
-import fr.caranouga.expeditech.common.te.custom.duct.EnergyDuctTE;
+import fr.caranouga.expeditech.common.tileentities.ModTileEntities;
+import fr.caranouga.expeditech.common.tileentities.custom.duct.EnergyDuctTE;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.energy.CapabilityEnergy;

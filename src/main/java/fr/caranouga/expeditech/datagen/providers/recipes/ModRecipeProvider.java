@@ -1,7 +1,7 @@
 package fr.caranouga.expeditech.datagen.providers.recipes;
 
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
-import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.items.custom.ModItems;
 import fr.caranouga.expeditech.common.utils.StringUtils;
 import fr.caranouga.expeditech.datagen.builders.recipe.SandingRecipeBuilder;
 import net.minecraft.block.Block;

@@ -1,5 +1,5 @@
 1. load/save
-   |-- trigger au "setChanged()"
+   |-- trigger au (un)load
    |-- Disk persistence (world saving)
    |-- If the data must survive a server restart, it goes here.
 
@@ -12,6 +12,8 @@
    |-- trigger au "world.sendBlockUpdated(pos, state, state, flags)"
    |-- Used for real-time synchronization
    |-- This is for "something changed; tell the client now."
+
+DANS TOUT LES CAS il faut "setChanged()"
 
 Timeline:
 WORLD SAVE -> save()

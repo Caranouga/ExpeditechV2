@@ -2,6 +2,7 @@ package fr.caranouga.expeditech.common.items.custom;
 
 import fr.caranouga.expeditech.common.recipes.ModRecipes;
 import fr.caranouga.expeditech.common.recipes.custom.sanding.SandingRecipe;
+import fr.caranouga.expeditech.common.tab.ModTabs;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
@@ -24,8 +25,10 @@ import java.util.Random;
 public class SandingPaperItem extends Item {
     // TODO: Make the animation
 
-    public SandingPaperItem(Properties pProperties) {
-        super(pProperties);
+    public SandingPaperItem() {
+        super(new Item.Properties()
+                .tab(ModTabs.EXPEDITECH)
+                .durability(16));
     }
 
     @Override

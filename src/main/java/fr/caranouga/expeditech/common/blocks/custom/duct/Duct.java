@@ -1,12 +1,11 @@
 package fr.caranouga.expeditech.common.blocks.custom.duct;
 
 import fr.caranouga.expeditech.common.items.custom.DuctItem;
-import fr.caranouga.expeditech.common.te.custom.duct.DuctTE;
+import fr.caranouga.expeditech.common.tileentities.custom.duct.DuctTE;
 import fr.caranouga.expeditech.common.utils.VoxelUtils;
 import fr.caranouga.expeditech.common.utils.WorldUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.PushReaction;

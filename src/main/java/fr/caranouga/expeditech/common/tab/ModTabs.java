@@ -1,6 +1,6 @@
 package fr.caranouga.expeditech.common.tab;
 
-import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.items.custom.ModItems;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 

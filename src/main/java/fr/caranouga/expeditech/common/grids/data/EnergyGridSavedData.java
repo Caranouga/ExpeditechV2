@@ -3,7 +3,7 @@ package fr.caranouga.expeditech.common.grids.data;
 import fr.caranouga.expeditech.common.grids.grid.EnergyGrid;
 import fr.caranouga.expeditech.common.grids.grid.Grid;
 import fr.caranouga.expeditech.common.grids.GridType;
-import fr.caranouga.expeditech.common.te.custom.duct.EnergyDuctTE;
+import fr.caranouga.expeditech.common.tileentities.custom.duct.EnergyDuctTE;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.energy.IEnergyStorage;

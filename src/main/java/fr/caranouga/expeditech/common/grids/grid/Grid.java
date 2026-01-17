@@ -5,7 +5,7 @@ import fr.caranouga.expeditech.common.grids.Node;
 import fr.caranouga.expeditech.common.grids.Path;
 import fr.caranouga.expeditech.common.grids.cap.GridCapabilityWrapper;
 import fr.caranouga.expeditech.common.grids.data.GridSavedData;
-import fr.caranouga.expeditech.common.te.custom.duct.DuctTE;
+import fr.caranouga.expeditech.common.tileentities.custom.duct.DuctTE;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;

@@ -1,6 +1,6 @@
 package fr.caranouga.expeditech.common.blocks.custom;
 
-import fr.caranouga.expeditech.common.te.ModTileEntities;
+import fr.caranouga.expeditech.common.tileentities.ModTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;

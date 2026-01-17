@@ -3,7 +3,7 @@ package fr.caranouga.expeditech.common.grids.data;
 import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.grids.grid.Grid;
 import fr.caranouga.expeditech.common.grids.GridType;
-import fr.caranouga.expeditech.common.te.custom.duct.DuctTE;
+import fr.caranouga.expeditech.common.tileentities.custom.duct.DuctTE;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;

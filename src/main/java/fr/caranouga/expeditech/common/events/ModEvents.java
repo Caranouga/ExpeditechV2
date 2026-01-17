@@ -1,17 +1,23 @@
 package fr.caranouga.expeditech.common.events;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.client.ClientState;
 import fr.caranouga.expeditech.common.capabilities.ModCapabilities;
 import fr.caranouga.expeditech.common.capabilities.tech.TechLevelProvider;
 import fr.caranouga.expeditech.common.capabilities.tech.TechLevelUtils;
+import fr.caranouga.expeditech.common.commands.TechLevelCommand;
 import fr.caranouga.expeditech.common.grids.data.EnergyGridSavedData;
 import fr.caranouga.expeditech.common.grids.grid.Grid;
-import fr.caranouga.expeditech.common.te.custom.duct.EnergyDuctTE;
+import fr.caranouga.expeditech.common.tileentities.custom.duct.EnergyDuctTE;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -53,7 +59,6 @@ public class ModEvents {
         });
     }
 
-
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         Entity ent = event.getEntity();
@@ -62,5 +67,24 @@ public class ModEvents {
 
             TechLevelUtils.update(player);
         }
+    }
+
+    @SubscribeEvent
+    public static void onRegisterCommands(RegisterCommandsEvent event) {
+        new TechLevelCommand(event.getDispatcher());
+        /*if(Expeditech.IS_IN_IDE){
+            new MultiblockSetupCommand(event.getDispatcher());
+            new MultiblockConvertCommand(event.getDispatcher());
+        }*/
+    }
+
+    @SubscribeEvent
+    public static void onRenderWorldLast(RenderWorldLastEvent event) {
+        MatrixStack pMatrixStack = event.getMatrixStack();
+
+        RenderSystem.pushMatrix();
+        RenderSystem.multMatrix(pMatrixStack.last().pose());
+        ClientState.getMultiblockErrorRenderer().render();
+        RenderSystem.popMatrix();
     }
 }

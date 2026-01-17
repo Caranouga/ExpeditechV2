@@ -1,0 +1,29 @@
+{
+  "display": {
+    "icon": {
+      "item": "et:caranite"
+    },
+    "title": {
+      "translate": "advancements.expeditech.main.root.title"
+    },
+    "description": {
+      "translate": "advancements.expeditech.main.root.description"
+    },
+    "frame": "goal",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "et:textures/block/caranite_block.png"
+  },
+  "criteria": {
+    "on_start": {
+      "trigger": "minecraft:tick",
+      "conditions": {}
+    }
+  },
+  "requirements": [
+    [
+      "on_start"
+    ]
+  ]
+}

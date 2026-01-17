@@ -1,6 +1,7 @@
 package fr.caranouga.expeditech.datagen;
 
 import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.datagen.providers.advancements.ModAdvancementProvider;
 import fr.caranouga.expeditech.datagen.providers.ModBlockstateProvider;
 import fr.caranouga.expeditech.datagen.providers.lang.ModLanguageProvider;
 import fr.caranouga.expeditech.datagen.providers.loottables.ModBlockLootTableProvider;
@@ -39,5 +40,6 @@ public class ModDataGenerator {
         // Other
         generator.addProvider(new ModLanguageProvider(generator));
         generator.addProvider(new ModRecipeProvider(generator));
+        generator.addProvider(new ModAdvancementProvider(generator, existingFileHelper));
     }
 }

@@ -1,4 +1,4 @@
-package fr.caranouga.expeditech.common.te.custom.duct;
+package fr.caranouga.expeditech.common.tileentities.custom.duct;
 
 import fr.caranouga.expeditech.common.blocks.custom.duct.Duct;
 import fr.caranouga.expeditech.common.grids.grid.Grid;

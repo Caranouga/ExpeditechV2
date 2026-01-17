@@ -1,7 +1,7 @@
 package fr.caranouga.expeditech.common.compatibility.jei.sanding;
 
 import fr.caranouga.expeditech.Expeditech;
-import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.items.custom.ModItems;
 import fr.caranouga.expeditech.common.recipes.custom.sanding.SandingRecipe;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;

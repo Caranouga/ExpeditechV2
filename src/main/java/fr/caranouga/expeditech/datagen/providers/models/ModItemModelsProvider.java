@@ -5,7 +5,7 @@ import fr.caranouga.expeditech.common.blocks.BlockEntry;
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
 import fr.caranouga.expeditech.common.blocks.custom.duct.Duct;
 import fr.caranouga.expeditech.common.blocks.custom.duct.DuctTier;
-import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.items.custom.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.BlockItem;

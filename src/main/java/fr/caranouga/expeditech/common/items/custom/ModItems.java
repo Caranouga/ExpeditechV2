@@ -1,9 +1,8 @@
-package fr.caranouga.expeditech.common.items;
+package fr.caranouga.expeditech.common.items.custom;
 
 import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
-import fr.caranouga.expeditech.common.items.custom.DuctItem;
-import fr.caranouga.expeditech.common.items.custom.SandingPaperItem;
+import fr.caranouga.expeditech.common.items.WrenchItem;
 import fr.caranouga.expeditech.common.tab.ModTabs;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -21,11 +20,8 @@ public class ModItems {
     // region Registry
     public static final RegistryObject<Item> CARANITE = item("caranite", new Item.Properties().tab(ModTabs.EXPEDITECH));
     public static final RegistryObject<Item> IMPURE_CARANITE = item("impure_caranite", new Item.Properties().tab(ModTabs.EXPEDITECH));
-    public static final RegistryObject<SandingPaperItem> SANDING_PAPER = item("sanding_paper",
-            () -> new SandingPaperItem(new Item.Properties()
-                .tab(ModTabs.EXPEDITECH)
-                .durability(16))
-    );
+    public static final RegistryObject<SandingPaperItem> SANDING_PAPER = item("sanding_paper", SandingPaperItem::new);
+    public static final RegistryObject<WrenchItem> WRENCH = item("wrench", WrenchItem::new);
 
     public static final RegistryObject<DuctItem> ENERGY_DUCT = item("energy_duct", () -> new DuctItem(ModBlocks.ENERGY_DUCT.get(), new Item.Properties().tab(ModTabs.EXPEDITECH)));
     // endregion

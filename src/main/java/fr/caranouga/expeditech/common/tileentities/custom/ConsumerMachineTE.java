@@ -1,7 +1,7 @@
-package fr.caranouga.expeditech.common.te.custom;
+package fr.caranouga.expeditech.common.tileentities.custom;
 
 import fr.caranouga.expeditech.common.capabilities.energy.CustomEnergyStorage;
-import fr.caranouga.expeditech.common.te.ModTileEntities;
+import fr.caranouga.expeditech.common.tileentities.ModTileEntities;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -12,12 +12,12 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class GeneratorMachineTE extends TileEntity implements ITickableTileEntity {
+public class ConsumerMachineTE extends TileEntity implements ITickableTileEntity {
     protected final CustomEnergyStorage energyStorage = createEnergyStorage();
     private final LazyOptional<CustomEnergyStorage> lazyEnergyStorage = LazyOptional.of(() -> energyStorage);
 
-    public GeneratorMachineTE() {
-        super(ModTileEntities.GENERATOR.get());
+    public ConsumerMachineTE() {
+        super(ModTileEntities.CONSUMER.get());
     }
 
     @Nonnull
@@ -36,14 +36,12 @@ public class GeneratorMachineTE extends TileEntity implements ITickableTileEntit
     }
 
     protected CustomEnergyStorage createEnergyStorage(){
-        return new CustomEnergyStorage(1000, 0, 1000);
+        return new CustomEnergyStorage(1000, 1000, 0);
     }
 
     @Override
     public void tick() {
         if (this.level == null || this.level.isClientSide) return;
-
-        this.energyStorage.addEnergy(1);
 
         setChanged();
     }

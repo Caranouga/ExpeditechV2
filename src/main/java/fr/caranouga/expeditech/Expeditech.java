@@ -1,13 +1,15 @@
 package fr.caranouga.expeditech;
 
+import fr.caranouga.expeditech.client.keybinds.ModKeyBinds;
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
 import fr.caranouga.expeditech.common.blocks.custom.duct.DuctTier;
 import fr.caranouga.expeditech.common.capabilities.ModCapabilities;
-import fr.caranouga.expeditech.common.items.ModItems;
+import fr.caranouga.expeditech.common.items.custom.ModItems;
 import fr.caranouga.expeditech.common.items.custom.DuctItem;
 import fr.caranouga.expeditech.common.packets.ModPackets;
 import fr.caranouga.expeditech.common.recipes.ModRecipes;
-import fr.caranouga.expeditech.common.te.ModTileEntities;
+import fr.caranouga.expeditech.common.tileentities.ModTileEntities;
+import fr.caranouga.expeditech.common.triggers.AdvancementTriggers;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -53,6 +55,7 @@ public class Expeditech
     private void setup(final FMLCommonSetupEvent event){
         ModCapabilities.register();
         ModPackets.register();
+        AdvancementTriggers.registerTriggers();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -67,6 +70,8 @@ public class Expeditech
                         return tier == null ? 0f : tier.getId();
                     }
             );
+
+            ModKeyBinds.register();
         });
     }
 }
