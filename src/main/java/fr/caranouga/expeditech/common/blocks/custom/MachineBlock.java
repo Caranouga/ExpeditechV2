@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 
 public abstract class MachineBlock extends Block {
     private static final DirectionProperty DIRECTION = DirectionProperty.create("direction", DirectionUtils.CARDINAL);
-    private static final BooleanProperty RUNNING = BooleanProperty.create("running");
+    public static final BooleanProperty RUNNING = BooleanProperty.create("running");
 
     public MachineBlock(Properties properties) {
         super(properties);

@@ -1,9 +1,11 @@
 package fr.caranouga.expeditech;
 
 import fr.caranouga.expeditech.client.keybinds.ModKeyBinds;
+import fr.caranouga.expeditech.client.screens.ModScreens;
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
 import fr.caranouga.expeditech.common.blocks.custom.duct.DuctTier;
 import fr.caranouga.expeditech.common.capabilities.ModCapabilities;
+import fr.caranouga.expeditech.common.containers.ModContainers;
 import fr.caranouga.expeditech.common.items.custom.ModItems;
 import fr.caranouga.expeditech.common.items.custom.DuctItem;
 import fr.caranouga.expeditech.common.packets.ModPackets;
@@ -48,6 +50,7 @@ public class Expeditech
         ModItems.register(modEBus);
         ModRecipes.register(modEBus);
         ModTileEntities.register(modEBus);
+        ModContainers.register(modEBus);
 
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -72,6 +75,7 @@ public class Expeditech
             );
 
             ModKeyBinds.register();
+            ModScreens.register();
         });
     }
 }
