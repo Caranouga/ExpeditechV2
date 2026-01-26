@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractMultiBlockMasterTile extends TileEntity implements ITickableTileEntity {
+    // TODO: Use the machine TE ?
     private boolean isFormed = false;
     private final MultiBlockShape shape;
     private final List<BlockPos> savedPos = new ArrayList<>();

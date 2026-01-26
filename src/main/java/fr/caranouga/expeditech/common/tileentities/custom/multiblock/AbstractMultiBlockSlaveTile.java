@@ -13,6 +13,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public abstract class AbstractMultiBlockSlaveTile extends TileEntity {
+    // TODO: Use the machine TE ?
     private AbstractMultiBlockMasterTile masterTile;
     private BlockPos pendingMasterPos = null;
 
@@ -75,8 +76,6 @@ public abstract class AbstractMultiBlockSlaveTile extends TileEntity {
     public void load(BlockState state, CompoundNBT compound) {
         super.load(state, compound);
 
-        Expeditech.LOGGER.debug("Loading (lvl null?: {}, clientside?: {}) {}", this.level == null, this.level != null && this.level.isClientSide, compound);
-
         if(compound.contains("masterPos")) {
             pendingMasterPos = NBTUtil.readBlockPos(compound.getCompound("masterPos"));
         }
@@ -87,8 +86,6 @@ public abstract class AbstractMultiBlockSlaveTile extends TileEntity {
         CompoundNBT nbt = super.save(pCompound);
 
         if(masterTile != null) nbt.put("masterPos", NBTUtil.writeBlockPos(masterTile.getBlockPos()));
-
-        Expeditech.LOGGER.debug("Saving (lvl null?: {}, clientside?: {}) {}", this.level == null, this.level != null && this.level.isClientSide, nbt);
 
         return nbt;
     }
