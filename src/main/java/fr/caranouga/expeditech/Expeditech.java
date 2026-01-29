@@ -29,6 +29,10 @@ import static fr.caranouga.expeditech.common.utils.StringUtils.modLocation;
 @Mod(Expeditech.MODID)
 public class Expeditech
 {
+    // TODO: Sanding machine
+    // TODO: Iston
+    // TODO: Change the texture of the coal generator
+
     public static final Logger LOGGER = LogManager.getLogger();
     public static final String MODID = "et";
 
