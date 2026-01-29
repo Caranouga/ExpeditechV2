@@ -1,6 +1,95 @@
 package fr.caranouga.expeditech.common.tileentities.custom.machine;
 
-import fr.caranouga.expeditech.Expeditech;
+import fr.caranouga.expeditech.common.capabilities.energy.CustomEnergyStorage;
+import fr.caranouga.expeditech.common.tileentities.custom.machine.interfaces.IHasEnergy;
+import fr.caranouga.expeditech.common.tileentities.custom.machine.interfaces.IHasInventory;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Optional;
+
+public abstract class MachineTE extends BaseTE implements ITickableTileEntity {
+    private CustomEnergyStorage energyStorage;
+    private LazyOptional<CustomEnergyStorage> lazyEnergyStorage = LazyOptional.empty();
+    private ItemStackHandler itemHandler;
+    private LazyOptional<ItemStackHandler> lazyItemHandler = LazyOptional.empty();
+
+    public MachineTE(TileEntityType<?> tileEntityType) {
+        super(tileEntityType);
+
+        initCapabilities();
+    }
+
+    private void initCapabilities(){
+        if(this instanceof IHasEnergy){
+            energyStorage = ((IHasEnergy) this).createEnergyStorage();
+            lazyEnergyStorage = LazyOptional.of(() -> energyStorage);
+        }
+        if(this instanceof IHasInventory){
+            itemHandler = ((IHasInventory) this).createInventory();
+            lazyItemHandler = LazyOptional.of(() -> itemHandler);
+        }
+    }
+
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if(cap == CapabilityEnergy.ENERGY && this.energyStorage != null) return lazyEnergyStorage.cast();
+        if(cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY && this.itemHandler != null) return lazyItemHandler.cast();
+
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    protected void invalidateCaps() {
+        super.invalidateCaps();
+
+        lazyEnergyStorage.invalidate();
+        lazyItemHandler.invalidate();
+    }
+
+    @Override
+    public void tick() {
+        if (this.level == null) return;
+
+        serverTick();
+    }
+
+
+
+    protected CompoundNBT createSaveLoadTag(CompoundNBT tag){
+        if(this.energyStorage != null) tag.put("Energy", this.energyStorage.serializeNBT());
+
+        return tag;
+    }
+
+    protected void readSaveLoadTag(CompoundNBT tag){
+        if (this.energyStorage != null && tag.contains("Energy")) {
+            this.energyStorage.deserializeNBT(tag.getCompound("Energy"));
+        }
+    }
+    // endregion
+
+    protected Optional<CustomEnergyStorage> getEnergyStorage() {
+        return Optional.ofNullable(energyStorage);
+    }
+
+    protected Optional<ItemStackHandler> getItemHandler() {
+        return Optional.ofNullable(itemHandler);
+    }
+
+    protected abstract void serverTick();
+}
+/*import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.capabilities.energy.CustomEnergyStorage;
 import fr.caranouga.expeditech.common.tileentities.custom.machine.interfaces.IHasEnergy;
 import fr.caranouga.expeditech.common.tileentities.custom.machine.interfaces.IHasInventory;
@@ -13,7 +102,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -22,11 +110,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public abstract class MachineTE extends TileEntity implements ITickableTileEntity {
-    // TODO: Make a new class "BaseTE" which contains the save/load func
-    // TODO: Make this class extend "BaseTE"
     private CustomEnergyStorage energyStorage;
     private LazyOptional<CustomEnergyStorage> lazyEnergyStorage = LazyOptional.empty();
     private ItemStackHandler itemHandler;
@@ -154,3 +239,4 @@ public abstract class MachineTE extends TileEntity implements ITickableTileEntit
 
     protected abstract void serverTick();
 }
+*/
