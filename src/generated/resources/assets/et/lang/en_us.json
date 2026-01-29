@@ -1,4 +1,5 @@
 {
+  "item.et.wrench": "Wrench",
   "block.et.energy_duct.advanced": "Advanced Energy Duct",
   "itemGroup.expeditech": "Expeditech",
   "commands.et.techlevel.get.levels.success": "%s has %s tech experience levels",

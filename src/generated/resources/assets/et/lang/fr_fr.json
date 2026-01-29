@@ -1,4 +1,5 @@
 {
+  "item.et.wrench": "Cl\u00E9 \u00E0 molette",
   "block.et.energy_duct.advanced": "Conduit d'\u00E9nergie avanc\u00E9",
   "itemGroup.expeditech": "Expeditech",
   "commands.et.techlevel.get.levels.success": "%s a %s niveau(x) d'exp\u00E9rience technologique",

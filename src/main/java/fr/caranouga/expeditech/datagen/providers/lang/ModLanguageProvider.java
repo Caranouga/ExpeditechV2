@@ -33,6 +33,7 @@ public class ModLanguageProvider extends CustomLanguageProvider {
         addItem(ModItems.CARANITE, "Caranite");
         addItem(ModItems.IMPURE_CARANITE, "Impure Caranite");
         addItem(ModItems.SANDING_PAPER, "Sanding Paper");
+        addItem(ModItems.WRENCH, "Wrench");
 
         addBlock(ModBlocks.CARANITE_BLOCK, "Block of Caranite");
         addBlock(ModBlocks.CARANITE_ORE, "Caranite Ore");
@@ -78,6 +79,7 @@ public class ModLanguageProvider extends CustomLanguageProvider {
         addItem(ModItems.CARANITE, "Caranite");
         addItem(ModItems.IMPURE_CARANITE, "Caranite impure");
         addItem(ModItems.SANDING_PAPER, "Papier abrasif");
+        addItem(ModItems.WRENCH, "Clé à molette");
 
         addBlock(ModBlocks.CARANITE_BLOCK, "Bloc de caranite");
         addBlock(ModBlocks.CARANITE_ORE, "Minerai de caranite");
