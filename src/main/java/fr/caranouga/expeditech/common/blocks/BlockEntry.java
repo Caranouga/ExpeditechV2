@@ -13,7 +13,8 @@ public class BlockEntry {
 
     public enum Model {
         BLOCK,
-        DUCT
+        DUCT,
+        MACHINE
         ;
     }
 }

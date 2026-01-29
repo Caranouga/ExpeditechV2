@@ -1,6 +1,7 @@
 package fr.caranouga.expeditech.client.screens;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.client.screens.widgets.ProgressBarWidget;
 import fr.caranouga.expeditech.client.utils.ColorUtils;
 import fr.caranouga.expeditech.common.containers.CoalGeneratorMachineContainer;
@@ -9,8 +10,11 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
+
+import java.util.Arrays;
 
 import static fr.caranouga.expeditech.common.utils.StringUtils.modLocation;
 
@@ -54,5 +58,30 @@ public class CoalGeneratorMachineScreen extends ContainerScreen<CoalGeneratorMac
         this.renderBackground(pMatrixStack);
         super.render(pMatrixStack, pMouseX, pMouseY, pPartialTicks);
         this.renderTooltip(pMatrixStack, pMouseX, pMouseY);
+    }
+
+    @Override
+    protected void renderTooltip(@Nonnull MatrixStack pPoseStack, int pX, int pY) {
+        if(pX >= this.leftPos + 48 && pX <= this.leftPos + 48 + ProgressBarWidget.WIDTH &&
+                pY >= this.topPos + 62 && pY <= this.topPos + 62 + ProgressBarWidget.HEIGHT) {
+            int energyStored = this.menu.getEnergyStored();
+            int energyCapacity = this.menu.getMaxEnergyStored();
+
+            ITextComponent translation = new TranslationTextComponent("tooltip." + Expeditech.MODID + ".coal_generator.energy", energyStored, energyCapacity);
+            renderTooltip(pPoseStack, translation, pX, pY);
+        }
+
+        // TODO: Patch tooltip progress
+        if(pX >= this.leftPos + 48 && pX <= this.leftPos + 48 + ProgressBarWidget.WIDTH &&
+                pY >= this.topPos + 18 && pY <= this.topPos + 18 + ProgressBarWidget.HEIGHT) {
+            int progress = this.menu.getProgress();
+            int maxProgress = this.menu.getMaxProgress();
+            float progressPercent = (int) (this.menu.getScaledProgress() * 100);
+
+            ITextComponent translation = new TranslationTextComponent("tooltip." + Expeditech.MODID + ".coal_generator.progress", progress, maxProgress, progressPercent + "%");
+            renderTooltip(pPoseStack, translation, pX, pY);
+        }
+
+        super.renderTooltip(pPoseStack, pX, pY);
     }
 }

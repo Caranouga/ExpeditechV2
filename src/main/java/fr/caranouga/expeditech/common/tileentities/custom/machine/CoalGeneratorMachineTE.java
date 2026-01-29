@@ -2,6 +2,7 @@ package fr.caranouga.expeditech.common.tileentities.custom.machine;
 
 import fr.caranouga.expeditech.common.blocks.custom.MachineBlock;
 import fr.caranouga.expeditech.common.capabilities.energy.CustomEnergyStorage;
+import fr.caranouga.expeditech.common.capabilities.energy.EnergyStorages;
 import fr.caranouga.expeditech.common.tileentities.ModTileEntities;
 import fr.caranouga.expeditech.common.tileentities.custom.machine.interfaces.IHasEnergy;
 import fr.caranouga.expeditech.common.tileentities.custom.machine.interfaces.IHasInventory;
@@ -17,7 +18,7 @@ import javax.annotation.Nonnull;
 
 public class CoalGeneratorMachineTE extends MachineTE implements IHasEnergy, IHasInventory {
     private static final int FUEL_INPUT_SLOT = 0;
-    private static final int ENERGY_PER_TICK = 1;
+    public static final int ENERGY_PER_TICK = 1;
 
     private int requiredTime = 0;
     private int currentBurnTime = 0;
@@ -27,7 +28,7 @@ public class CoalGeneratorMachineTE extends MachineTE implements IHasEnergy, IHa
     }
 
     public CustomEnergyStorage createEnergyStorage(){
-        return new CustomEnergyStorage(1000, 0, 1000);
+        return EnergyStorages.COAL_GENERATOR.get();
     }
 
     @Override

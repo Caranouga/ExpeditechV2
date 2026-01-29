@@ -199,6 +199,22 @@ public abstract class CustomLanguageProvider implements IDataProvider {
         add("commands." + Expeditech.MODID + "." + commandName + "." + path, translation);
     }
 
+    protected void addScreen(String screen, String translation){
+        add("screen." + Expeditech.MODID + "." + screen, translation);
+    }
+
+    protected void addJEI(String screen, String translation){
+        add("jei." + Expeditech.MODID + "." + screen, translation);
+    }
+
+    protected void addTooltip(String screen, String path, String translation){
+        add("tooltip." + Expeditech.MODID + "." + screen + "." + path, translation);
+    }
+
+    protected void addJEITooltip(String screen, String path, String translation){
+        add("jei." + Expeditech.MODID + "." + screen + ".tooltips." + path, translation);
+    }
+
     /**
      * This function add a translation based on a key
      * @param key The key to translate for

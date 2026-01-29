@@ -43,7 +43,7 @@ public class ModBlocks {
                     .harvestTool(ToolType.PICKAXE).harvestLevel(2).requiresCorrectToolForDrops());
 
     // Machines
-    public static final RegistryObject<CoalGeneratorMachine> COAL_GENERATOR = block("coal_generator", CoalGeneratorMachine::new);
+    public static final RegistryObject<CoalGeneratorMachine> COAL_GENERATOR = machine("coal_generator", CoalGeneratorMachine::new);
     public static final RegistryObject<ConsumerMachine> CONSUMER = block("consumer", ConsumerMachine::new);
 
     // Ducts
@@ -61,6 +61,13 @@ public class ModBlocks {
 
     private static <B extends Block> RegistryObject<B> block(String id, Supplier<B> supplier){
         RegistryObject<B> blockObj = blockWithoutItem(id, supplier, new BlockEntry(BlockEntry.Model.BLOCK));
+        ModItems.blockItem(id, blockObj);
+
+        return blockObj;
+    }
+
+    private static <B extends Block> RegistryObject<B> machine(String id, Supplier<B> supplier){
+        RegistryObject<B> blockObj = blockWithoutItem(id, supplier, new BlockEntry(BlockEntry.Model.MACHINE));
         ModItems.blockItem(id, blockObj);
 
         return blockObj;

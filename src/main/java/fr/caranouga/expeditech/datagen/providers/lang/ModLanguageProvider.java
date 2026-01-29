@@ -36,6 +36,7 @@ public class ModLanguageProvider extends CustomLanguageProvider {
 
         addBlock(ModBlocks.CARANITE_BLOCK, "Block of Caranite");
         addBlock(ModBlocks.CARANITE_ORE, "Caranite Ore");
+        addBlock(ModBlocks.COAL_GENERATOR, "Coal Generator");
 
         Map<DuctTier, String> ductTrans = new HashMap<>();
         ductTrans.put(DuctTier.BASIC_TIER, "Basic");
@@ -55,6 +56,15 @@ public class ModLanguageProvider extends CustomLanguageProvider {
         addCommand("techlevel", "get.xp.success", "%s has %s tech experience points");
         addCommand("techlevel", "get.levels.success", "%s has %s tech experience levels");
 
+        addScreen("coal_generator", "Coal Generator");
+
+        addJEI("coal_generator", "Coal Generator");
+
+        addTooltip("coal_generator", "progress", "Progress: %s/%s (%s)");
+        addTooltip("coal_generator", "energy", "Energy: %s/%s");
+        addJEITooltip("coal_generator", "progress", "Progress: %st (%ss)");
+        addJEITooltip("coal_generator", "energy", "Energy: %s/%s");
+
         add("book.et.engineering_manual.name", "The Great Engineering Manual");
         add("book.et.engineering_manual.subtitle", "A serious guide to surviving your own inventions - with minimal explosions.");
         add("book.et.engineering_manual.description", "$(l)Welcome to $()$(thing)The Great Engineering Manual$()$(br2)This manual brings together everything you need to understand your new machines, ores, structures, and creatures.$(br)Take a deep breath, adjust your helmet...$(br)The adventure begins !");
@@ -71,6 +81,7 @@ public class ModLanguageProvider extends CustomLanguageProvider {
 
         addBlock(ModBlocks.CARANITE_BLOCK, "Bloc de caranite");
         addBlock(ModBlocks.CARANITE_ORE, "Minerai de caranite");
+        addBlock(ModBlocks.COAL_GENERATOR, "Générateur à charbon");
 
         Map<DuctTier, String> trans = new HashMap<>();
         trans.put(DuctTier.BASIC_TIER, "basique");
@@ -89,6 +100,15 @@ public class ModLanguageProvider extends CustomLanguageProvider {
         addCommand("techlevel", "set.levels.success.multiple", "Le nombre de niveaux d'expérience technologique a été défini à %s pour %s joueurs");
         addCommand("techlevel", "get.xp.success", "%s a %s point(s) d'expérience technologique");
         addCommand("techlevel", "get.levels.success", "%s a %s niveau(x) d'expérience technologique");
+
+        addScreen("coal_generator", "Générateur à charbon");
+
+        addJEI("coal_generator", "Générateur à charbon");
+
+        addTooltip("coal_generator", "progress", "Progression: %s/%s (%s)");
+        addTooltip("coal_generator", "energy", "Énergie: %s/%s");
+        addJEITooltip("coal_generator", "progress", "Progression: %st (%ss)");
+        addJEITooltip("coal_generator", "energy", "Énergie: %s/%s");
 
         add("book.et.engineering_manual.name", "Le grand manuel d'ingénierie");
         add("book.et.engineering_manual.subtitle", "Un guide sérieux pour survivre à vos propres inventions - avec un minimum d’explosions.");

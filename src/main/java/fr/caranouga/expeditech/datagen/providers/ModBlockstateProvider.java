@@ -3,11 +3,15 @@ package fr.caranouga.expeditech.datagen.providers;
 import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.blocks.BlockEntry;
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
+import fr.caranouga.expeditech.common.blocks.custom.MachineBlock;
 import fr.caranouga.expeditech.common.blocks.custom.duct.Duct;
 import fr.caranouga.expeditech.common.blocks.custom.duct.DuctTier;
+import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -27,6 +31,11 @@ public class ModBlockstateProvider extends BlockStateProvider {
             switch (blockModel){
                 case DUCT: {
                     registerDuctBlock((Duct<?>) entry.get());
+                    break;
+                }
+
+                case MACHINE: {
+                    registerMachineBlock((MachineBlock) entry.get());
                     break;
                 }
 
@@ -61,5 +70,35 @@ public class ModBlockstateProvider extends BlockStateProvider {
                     .part().modelFile(part).rotationX(270).addModel().condition(Duct.TIER, tier).condition(BlockStateProperties.UP, true).end()
                     .part().modelFile(part).rotationX(90).addModel().condition(Duct.TIER, tier).condition(BlockStateProperties.DOWN, true).end();
         }
+    }
+
+    private void registerMachineBlock(Block block) {
+        getVariantBuilder(block)
+                .forAllStates(state -> {
+                    Direction direction = state.getValue(MachineBlock.DIRECTION);
+                    boolean powered = state.getValue(MachineBlock.RUNNING);
+                    int rotationY = getRotationY(direction);
+
+                    return ConfiguredModel.builder()
+                            .modelFile(models().getExistingFile(modLocation("block/" + block.getRegistryName().getPath() + (powered ? "_on" : ""))))
+                            .rotationY(rotationY)
+                            .build();
+                });
+    }
+
+    private static int getRotationY(Direction direction) {
+        int rotationY;
+        if (direction == Direction.NORTH) {
+            rotationY = 0;
+        } else if (direction == Direction.EAST) {
+            rotationY = 90;
+        } else if (direction == Direction.SOUTH) {
+            rotationY = 180;
+        } else if (direction == Direction.WEST) {
+            rotationY = 270;
+        } else {
+            rotationY = 0;
+        }
+        return rotationY;
     }
 }

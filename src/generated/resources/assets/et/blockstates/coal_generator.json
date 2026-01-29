@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "direction=north,running=false": {
+      "model": "et:block/coal_generator"
+    },
+    "direction=south,running=false": {
+      "model": "et:block/coal_generator",
+      "y": 180
+    },
+    "direction=west,running=false": {
+      "model": "et:block/coal_generator",
+      "y": 270
+    },
+    "direction=east,running=false": {
+      "model": "et:block/coal_generator",
+      "y": 90
+    },
+    "direction=north,running=true": {
+      "model": "et:block/coal_generator_on"
+    },
+    "direction=south,running=true": {
+      "model": "et:block/coal_generator_on",
+      "y": 180
+    },
+    "direction=west,running=true": {
+      "model": "et:block/coal_generator_on",
+      "y": 270
+    },
+    "direction=east,running=true": {
+      "model": "et:block/coal_generator_on",
+      "y": 90
+    }
+  }
+}

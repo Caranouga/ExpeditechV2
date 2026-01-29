@@ -3,6 +3,7 @@ package fr.caranouga.expeditech.datagen.providers.models;
 import fr.caranouga.expeditech.Expeditech;
 import fr.caranouga.expeditech.common.blocks.BlockEntry;
 import fr.caranouga.expeditech.common.blocks.ModBlocks;
+import fr.caranouga.expeditech.common.blocks.custom.MachineBlock;
 import fr.caranouga.expeditech.common.blocks.custom.duct.Duct;
 import fr.caranouga.expeditech.common.blocks.custom.duct.DuctTier;
 import net.minecraft.data.DataGenerator;
@@ -24,6 +25,12 @@ public class ModBlockModelProvider extends BlockModelProvider {
             switch (modelEntry){
                 case DUCT: {
                     generateDuctBlock((Duct<?>) entry.get());
+
+                    break;
+                }
+
+                case MACHINE: {
+                    generateMachineBlock((MachineBlock) entry.get());
 
                     break;
                 }
@@ -54,5 +61,18 @@ public class ModBlockModelProvider extends BlockModelProvider {
                     .texture("particle", modLocation(basePath + "connection"));
         }
 
+    }
+
+    private void generateMachineBlock(MachineBlock machine){
+        String name = machine.getRegistryName().getPath();
+        withExistingParent(name, mcLoc("block/orientable"))
+                .texture("front", modLocation("block/" + name + "/" + name + "_front"))
+                .texture("side", modLocation("block/" + name + "/" + name + "_side"))
+                .texture("top", modLocation("block/" + name + "/" + name + "_top"));
+
+        withExistingParent(name + "_on", mcLoc("block/orientable"))
+                .texture("front", modLocation("block/" + name + "/" + name + "_front_on"))
+                .texture("side", modLocation("block/" + name + "/" + name + "_side"))
+                .texture("top", modLocation("block/" + name + "/" + name + "_top"));
     }
 }
