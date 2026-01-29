@@ -16,7 +16,6 @@ public class Graph<D extends DuctTE<?, D>> {
         this.ductClass = ductClass;
     }
 
-    // TODO: Passer les adjency list en param
     public void setChanged(ServerWorld world, Set<BlockPos> generators, Set<BlockPos> consumers, Set<BlockPos> ducts){
         clear();
 

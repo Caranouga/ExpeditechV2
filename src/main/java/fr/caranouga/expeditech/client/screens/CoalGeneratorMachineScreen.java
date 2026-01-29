@@ -71,7 +71,6 @@ public class CoalGeneratorMachineScreen extends ContainerScreen<CoalGeneratorMac
             renderTooltip(pPoseStack, translation, pX, pY);
         }
 
-        // TODO: Patch tooltip progress
         if(pX >= this.leftPos + 48 && pX <= this.leftPos + 48 + ProgressBarWidget.WIDTH &&
                 pY >= this.topPos + 18 && pY <= this.topPos + 18 + ProgressBarWidget.HEIGHT) {
             int progress = this.menu.getProgress();
